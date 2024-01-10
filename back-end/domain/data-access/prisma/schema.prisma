@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Orientation {
+  GAY
+  STRAIGHT
+  BI
+}
+
+enum Gender {
+    MAN
+    WOMAN
+    NON_BINARY
+    TRANS
+    QUEER
+    OTHER
+}
+
+model Profile {
+  id             Int         @id @default(autoincrement())
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  email          String      @unique
+  username       String      @unique
+  password       String
+  role           Role        @default(USER)
+  orientation    Orientation
+  age            Int
+  gender         Gender
+  bio            String?
+  interests      String[]
+  pictures       String[]    @default(["default-profilePicture.jpg"])
+  matches        Match[]     @relation("matches")
+}
+
+model Match {
+  id        Int              @id @default(autoincrement())
+  timestamp DateTime         @default(now())
+  profile1  Int
+  profile2  Int
+  profiles  Profile[]        @relation("matches")
+}
