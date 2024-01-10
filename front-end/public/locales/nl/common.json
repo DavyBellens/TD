@@ -1,0 +1,173 @@
+{
+  "app.title": "tiStudent App",
+  "general.error": "Er is een fout opgetreden. Probeer het later opnieuw.",
+  "authorization.error": "U bent niet gemachtigd om deze pagina te bekijken. Log eerst in.",
+  "loading": "Laden...",
+  "delete": "Verwijderen",
+  "back": "Ga terug",
+  "email.linked": "E-mail al gekoppeld aan een profiel",
+  "header": {
+    "nav": {
+      "home": "Home",
+      "users": "Gebruikers",
+      "resources": "Bronnen",
+      "profiles": "Profielen",
+      "login": "Inloggen",
+      "logout": "Uitloggen"
+    }
+  },
+  "home": {
+    "welcome": "Welkom",
+    "message": "tiStudent is een platform waar je academische bronnen kunt delen. Als gebruiker kun je je eigen bronnen uploaden en bronnen van anderen liken en erop reageren. Je kunt je gelikete bronnen bekijken en een overzicht krijgen van alle bronnen die je hebt gedeeld."
+  },
+  "users": {
+    "message": "Gebruikers",
+    "info": "Gebruikersinformatie",
+    "about": "Informatie over gebruiker met ID:",
+    "loading": "Laden...",
+    "deleted": {
+      "title": "Gebruiker verwijderd",
+      "message": "Gebruiker verwijderd met ID:"
+    },
+    "fields": {
+      "id": "ID",
+      "email": "E-mail",
+      "password": "Wachtwoord"
+    }
+  },
+  "resources": {
+    "title": "Bronnen",
+    "fields": {
+      "id": "ID",
+      "user.id": "Gebruiker ID",
+      "created.at": "Aangemaakt op",
+      "title": "Titel",
+      "description": "Omschrijving",
+      "category": "Categorie",
+      "summary": "Samenvatting",
+      "cheat.sheet": "Spiekbriefje",
+      "lecture.notes": "Collegeaantekeningen",
+      "subject": "Onderwerp",
+      "profileId": "ProfielID",
+      "creator": "Maker",
+      "file": "Bestand",
+      "thumbnail": "Miniatuur",
+      "likes": "Likes"
+    },
+    "error": {
+      "title": "Titel is verplicht",
+      "titleLength": "Titel mag niet langer zijn dan 60 tekens",
+      "description": "Omschrijving is verplicht",
+      "descriptionLength": "Omschrijving mag niet langer zijn dan 500 tekens",
+      "category": "Categorie is verplicht",
+      "category.invalid": "Ongeldige categorie",
+      "subject": "Onderwerp is verplicht",
+      "subject.invalid": "Ongeldig onderwerp",
+      "profileId": "ProfielID is verplicht",
+      "file": "Bestand is verplicht",
+      "creator": "U bent niet de maker van deze bron."
+    },
+    "create": "Maak bron aan",
+    "info": {
+      "title": "Broninformatie",
+      "message": "Voeg een bron toe",
+      "link": "Link gekopieerd",
+      "member": "Lid sinds"
+    },
+    "confirm": "Weet je zeker dat je de bron met titel wilt verwijderen",
+    "delete": "Bron verwijderd met ID ",
+    "comment": {
+      "reply": "Antwoord",
+      "empty": "Antwoord mag niet leeg zijn",
+      "hide": "Verberg",
+      "show": "Toon",
+      "replies": " antwoorden",
+      "add": "Voeg een opmerking toe",
+      "prompt": "Jouw bericht:",
+      "message": "Bericht",
+      "submit": "Verzenden",
+      "none": "Er zijn geen opmerkingen",
+      "options": {
+        "edit": {
+          "title": "Bewerken",
+          "message": "Nog niet geïmplementeerd"
+        },
+        "delete": {
+          "title": "Verwijderen",
+          "message": "Weet je zeker dat je deze opmerking wilt verwijderen? ",
+          "error": "U bent niet de maker van deze opmerking"
+        },
+        "close": "Sluiten"
+      }
+    }
+  },
+  "download": {
+    "message": "Bestand downloaden",
+    "error": {
+      "download": "Het downloaden van het bestand is mislukt.",
+      "fetch": "Fout tijdens ophalen:"
+    }
+  },
+  "profiles": {
+    "index.title": "Profielen",
+    "title": "Profielinformatie",
+    "fields": {
+      "id": "ID",
+      "username": "Gebruikersnaam",
+      "bio": "Biografie",
+      "created.at": "Aangemaakt op",
+      "role": "Rol",
+      "latest.activity": "Laatste activiteit"
+    },
+    "info": {
+      "message": "Informatie over ",
+      "uploaded": "'s geüploade bronnen",
+      "nothing": "Deze gebruiker heeft nog niets gedeeld"
+    },
+    "delete": "Weet je zeker dat je wilt verwijderen"
+  },
+  "login": {
+    "enter": "Inloggen",
+    "message": "Inloggen",
+    "github": "Aanmelden met GitHub",
+    "profile": {
+      "message": "Of maak een nieuw profiel aan",
+      "form": {
+        "username": "Gebruikersnaam",
+        "bio": "Biografie",
+        "email": "E-mail",
+        "password": "Wachtwoord",
+        "create.profile": "Profiel aanmaken",
+        "error": {
+          "email": "E-mail is verplicht",
+          "username": "Gebruikersnaam is verplicht",
+          "username.length": "Gebruikersnaam mag niet langer zijn dan 30 tekens",
+          "bio": "Biografie mag niet langer zijn dan 200 tekens",
+          "password": {
+            "exists": "Wachtwoord is verplicht",
+            "length": "Wachtwoord moet minimaal 8 tekens lang zijn",
+            "number": "Wachtwoord moet minstens 1 cijfer bevatten",
+            "capital": "Wachtwoord moet minstens 1 hoofdletter bevatten",
+            "special": "Wachtwoord moet minstens 1 speciaal teken bevatten (!@#$%^&*()_+-=[]{};':\"|,.<>/?)"
+          }
+        }
+      }
+    },
+    "succes": "Inloggen gelukt! We sturen je naar de hoofdpagina",
+    "error": "Er is een probleem opgetreden. Gelieve later opnieuw te proberen."
+  },
+  "logout": {
+    "message": "Weet je zeker dat je wilt vertrekken?",
+    "button": "Ja"
+  },
+  "footer": {
+    "message": "Blijf in contact",
+    "startdate": "Startdatum project",
+    "supported": "Ondersteunde talen",
+    "menu": "Menu"
+  },
+  "leaderboard": {
+    "top": "Topbijdragers",
+    "count": "Aantal"
+  }
+}

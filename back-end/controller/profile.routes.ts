@@ -5,7 +5,7 @@ import { AuthenticationResponse, ProfileInput, ProfileLikes, Role } from '../typ
 
 const profileRouter = express.Router();
 
-profileRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+profileRouter.get('/', async (_req: Request, res: Response, next: NextFunction) => {
     try {
         const profiles: Profile[] = await profileService.getAllProfiles('ADMIN');
 

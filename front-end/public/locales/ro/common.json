@@ -1,0 +1,173 @@
+{
+  "app.title": "Aplicația tiStudent",
+  "general.error": "A apărut o eroare. Vă rugăm să încercați din nou mai târziu.",
+  "authorization.error": "Nu aveți autorizația de a vizualiza această pagină. Vă rugăm să vă autentificați mai întâi.",
+  "loading": "Se încarcă...",
+  "delete": "Șterge",
+  "back": "Înapoi",
+  "email.linked": "Email deja asociat unui profil",
+  "header": {
+    "nav": {
+      "home": "Acasă",
+      "users": "Utilizatori",
+      "resources": "Resurse",
+      "profiles": "Profile",
+      "login": "Autentificare",
+      "logout": "Dezautentificare"
+    }
+  },
+  "home": {
+    "welcome": "Bun venit",
+    "message": "tiStudent este o platformă unde poți partaja resurse academice. Ca utilizator, poți încărca resurse proprii, și puteți aprecia și comenta resursele altor persoane. Puteți vizualiza resursele apreciate și obține o privire de ansamblu asupra tuturor resurselor pe care le-ați partajat."
+  },
+  "users": {
+    "message": "Utilizatori",
+    "info": "Informații Utilizator",
+    "about": "Informații despre utilizatorul cu ID-ul:",
+    "loading": "Se încarcă...",
+    "deleted": {
+      "title": "Utilizator Șters",
+      "message": "Utilizator șters cu ID-ul:"
+    },
+    "fields": {
+      "id": "ID",
+      "email": "Email",
+      "password": "Parolă"
+    }
+  },
+  "resources": {
+    "title": "Resurse",
+    "fields": {
+      "id": "ID",
+      "user.id": "ID Utilizator",
+      "created.at": "Creat la",
+      "title": "Titlu",
+      "description": "Descriere",
+      "category": "Categorie",
+      "summary": "Sumar",
+      "cheat.sheet": "Cheat Sheet",
+      "lecture.notes": "Note de curs",
+      "subject": "Subiect",
+      "profileId": "ID Profil",
+      "creator": "Creator",
+      "file": "Fișier",
+      "thumbnail": "Miniatură",
+      "likes": "Aprecieri"
+    },
+    "error": {
+      "title": "Titlul este obligatoriu",
+      "titleLength": "Titlul nu poate avea mai mult de 60 de caractere",
+      "description": "Descrierea este obligatorie",
+      "descriptionLength": "Descrierea nu poate avea mai mult de 500 de caractere",
+      "category": "Categoria este obligatorie",
+      "category.invalid": "Categorie invalidă",
+      "subject": "Subiectul este obligatoriu",
+      "subject.invalid": "Subiect invalid",
+      "profileId": "ID Profil este obligatoriu",
+      "file": "Fișierul este obligatoriu",
+      "creator": "Nu sunteți creatorul acestei Resurse."
+    },
+    "create": "Creează Resursă",
+    "info": {
+      "title": "Informații Resursă",
+      "message": "Adaugă o Resursă",
+      "link": "Link copiat",
+      "member": "Membru din"
+    },
+    "confirm": "Sunteți sigur că doriți să ștergeți resursa cu titlul",
+    "delete": "Resursa cu ID-ul a fost eliminată ",
+    "comment": {
+      "reply": "Răspunde",
+      "empty": "Comentariul nu poate fi gol",
+      "hide": "Ascunde",
+      "show": "Afișează",
+      "replies": " răspunsuri",
+      "add": "Adaugă un comentariu",
+      "prompt": "Mesajul tău:",
+      "message": "Mesaj",
+      "submit": "Trimite",
+      "none": "Nu există comentarii",
+      "options": {
+        "edit": {
+          "title": "Editează",
+          "message": "Nu a fost implementat încă"
+        },
+        "delete": {
+          "title": "Șterge",
+          "message": "Sunteți sigur că doriți să ștergeți acest comentariu? ",
+          "error": "Nu sunteți creatorul acestui comentariu"
+        },
+        "close": "Închide"
+      }
+    }
+  },
+  "download": {
+    "message": "Descarcă Fișierul",
+    "error": {
+      "download": "Descărcarea fișierului a eșuat.",
+      "fetch": "Eroare în timpul preluării:"
+    }
+  },
+  "profiles": {
+    "index.title": "Profile",
+    "title": "Informații Profil",
+    "fields": {
+      "id": "ID",
+      "username": "Nume de utilizator",
+      "bio": "Bio",
+      "created.at": "Creat la",
+      "role": "Rol",
+      "latest.activity": "Ultima Activitate"
+    },
+    "info": {
+      "message": "Informații despre ",
+      "uploaded": " resursele încărcate",
+      "nothing": "Acest utilizator nu a partajat încă nimic"
+    },
+    "delete": "Sunteți sigur că doriți să ștergeți"
+  },
+  "login": {
+    "enter": "Intră",
+    "message": "Autentificare",
+    "github": "Autentificare cu GitHub",
+    "profile": {
+      "message": "Sau creează un profil nou",
+      "form": {
+        "username": "Nume de utilizator",
+        "bio": "Bio",
+        "email": "Email",
+        "password": "Parolă",
+        "create.profile": "Creează profil",
+        "error": {
+          "email": "Emailul este obligatoriu",
+          "username": "Numele de utilizator este obligatoriu",
+          "username.length": "Numele de utilizator nu poate avea mai mult de 30 de caractere",
+          "bio": "Bio nu poate avea mai mult de 200 de caractere",
+          "password": {
+            "exists": "Parola este obligatorie",
+            "length": "Parola trebuie să aibă cel puțin 8 caractere",
+            "number": "Parola trebuie să conțină cel puțin 1 cifră",
+            "capital": "Parola trebuie să conțină cel puțin 1 literă mare",
+            "special": "Parola trebuie să conțină cel puțin 1 caracter special (!@#$%^&*()_+-=[]{};':\"|,.<>/?)"
+          }
+        }
+      }
+    },
+    "succes": "Autentificare reușită! Se redirectionează...",
+    "error": "A apărut o eroare. Vă rugăm să încercați din nou mai târziu."
+  },
+  "logout": {
+    "message": "Sunteți sigur că doriți să părăsiți?",
+    "button": "Da"
+  },
+  "footer": {
+    "message": "Păstrați legătura",
+    "startdate": "Data de început a proiectului",
+    "supported": "Limbi acceptate",
+    "menu": "Meniu"
+  },
+  "leaderboard": {
+    "top": "Top Contribuitori",
+    "count": "Număr"
+  }
+}
