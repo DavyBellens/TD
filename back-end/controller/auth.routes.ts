@@ -23,7 +23,6 @@ authRouter.post('/signin', async (req: Request, res: Response, next: NextFunctio
         const password: string = String(req.body.password);
 
         const data: AuthenticationResponse = await profileService.authenticate(email, password);
-        console.log(data);
 
         res.status(200).json({ status: 'success', message: 'authentication successful', ...data });
     } catch (error) {
