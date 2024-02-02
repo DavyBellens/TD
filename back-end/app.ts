@@ -8,6 +8,7 @@ import yaml from 'yamljs';
 import { authRouter } from './controller/auth.routes';
 import { profileRouter } from './controller/profile.routes';
 import { fileRouter } from './controller/file.routes';
+import { matchRouter } from './controller/match.routes';
 
 const app = express();
 
@@ -25,9 +26,10 @@ app.use(
     })
 );
 
-app.use('/profiles', profileRouter);
 app.use('/', authRouter);
+app.use('/profiles', profileRouter);
 app.use('/files', fileRouter);
+app.use('/matches', matchRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/status', (req, res) => {

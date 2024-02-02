@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { Profile } from '../domain/model/profile';
 import profileService from '../service/profile.service';
-import { AuthenticationResponse, ProfileInput, ProfileLikes, Role } from '../types';
+import { AuthenticationResponse, ProfileInput } from '../types';
 
 const profileRouter = express.Router();
 
@@ -34,7 +34,6 @@ profileRouter.put(
             const inputProfileId: string | number = parseInt(req.params.profileId);
             const profileInput: ProfileInput = req.body as ProfileInput;
             const auth: AuthenticationResponse = req.auth;
-
             const updatedProfile: Profile = await profileService.updateProfile(inputProfileId, profileInput, auth);
 
             res.status(200).json({ status: 'success', message: 'profile updated', updatedProfile });
@@ -50,9 +49,7 @@ profileRouter.delete(
         try {
             const inputProfileId: string | number = req.params.profileId;
             const auth: AuthenticationResponse = req.auth;
-
             const deletedProfile: Profile = await profileService.deleteProfile(inputProfileId, auth);
-
             res.status(200).json({ status: 'success', message: 'profile deleted', deletedProfile });
         } catch (error) {
             next(error);
