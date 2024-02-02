@@ -12,19 +12,19 @@ enum Role {
   ADMIN
 }
 
-enum Orientation {
-  GAY
-  STRAIGHT
-  BI
+enum Preference {
+  MALE
+  FEMALE
+  BOTH
+  OTHER
 }
 
 enum Gender {
-    MAN
-    WOMAN
-    NON_BINARY
-    TRANS
-    QUEER
-    OTHER
+  MAN
+  WOMAN
+  NON_BINARY
+  OTHER
+  SECRET
 }
 
 model Profile {
@@ -35,19 +35,20 @@ model Profile {
   username       String      @unique
   password       String
   role           Role        @default(USER)
-  orientation    Orientation
+  preference     Preference
   age            Int
   gender         Gender
   bio            String?
   interests      String[]
+  socials        String[]
   pictures       String[]    @default(["default-profilePicture.jpg"])
   matches        Match[]     @relation("matches")
 }
 
 model Match {
-  id        Int              @id @default(autoincrement())
-  timestamp DateTime         @default(now())
-  profile1  Int
-  profile2  Int
-  profiles  Profile[]        @relation("matches")
+  id             Int              @id @default(autoincrement())
+  timestamp      DateTime         @default(now())
+  profileId1     Int
+  profileId2     Int
+  profiles       Profile[]        @relation("matches")
 }
