@@ -1,6 +1,5 @@
 import ProfileService from "@/services/ProfileService";
 import { StatusMessage } from "@/types";
-import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 
@@ -10,7 +9,6 @@ const ProfileLoginForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
-  const { t } = useTranslation();
   const router = useRouter();
   const clearErrors = () => {
     setEmailError("");
@@ -22,12 +20,12 @@ const ProfileLoginForm: React.FC = () => {
     let isValid = true;
 
     if (!email.trim()) {
-      setEmailError(t("login.profile.form.error.email"));
+      setEmailError("Email is required");
       isValid = false;
     }
 
     if (!password.trim()) {
-      setPasswordError(t("login.profile.form.error.password.exists"));
+      setPasswordError("Password is required");
       isValid = false;
     }
 
@@ -44,10 +42,15 @@ const ProfileLoginForm: React.FC = () => {
         return;
       }
 
+      if (res.status === 400) {
+        setPasswordError("Incorrect password");
+        return;
+      }
+
       if (res.status !== 200) {
         setStatusMessages([
           {
-            message: t("login.error"),
+            message: "An error has occurred. Please try again later.",
             type: "error",
           },
         ]);
@@ -68,7 +71,7 @@ const ProfileLoginForm: React.FC = () => {
       );
       sessionStorage.setItem("token", JSON.stringify({ value: user.token.value }));
 
-      setStatusMessages([{ message: t("login.succes"), type: "success" }]);
+      setStatusMessages([{ message: "Login successful! Redirecting...", type: "success" }]);
       setTimeout(() => {
         router.push("/");
       }, 2000);
@@ -101,20 +104,31 @@ const ProfileLoginForm: React.FC = () => {
       )}
 
       <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
-        <label htmlFor="emailInput" className="mb-1">
-          {t("login.profile.form.email")}
+        <label htmlFor="emailInput" className="mb-1 text-xl">
+          <strong>Email</strong>
         </label>
-        <input id="emailInput" type="email" value={email} className="mb-1" onChange={(e) => setEmail(e.target.value)} />
+        <input
+          id="emailInput"
+          type="email"
+          value={email}
+          className="mb-1 bg-white bg-opacity-75 text-black p-1 rounded-lg"
+          onChange={(e) => setEmail(e.target.value)}
+        />
         {emailError && <div>{emailError}</div>}
 
-        <label htmlFor="passwordInput" className="mb-1">
-          {t("login.profile.form.password")}
+        <label htmlFor="passwordInput" className="mb-1 text-xl">
+          <strong>Password</strong>
         </label>
-        <input id="passwordInput" type="password" className="mb-1" onChange={(e) => setPassword(e.target.value)} />
+        <input
+          id="passwordInput"
+          type="password"
+          className="mb-1 bg-white bg-opacity-75 text-black p-1 rounded-lg"
+          onChange={(e) => setPassword(e.target.value)}
+        />
         {passwordError && <div>{passwordError}</div>}
 
-        <button type="submit" className="bg-gray-500 m-5 hover:bg-gray-300 hover:text-black">
-          {t("login.enter")}
+        <button type="submit" className="bg-white bg-opacity-50 text-xl rounded-lg mt-1">
+          <strong>Enter</strong>
         </button>
       </form>
     </>

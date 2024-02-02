@@ -1,20 +1,27 @@
-import { useTranslation } from "next-i18next";
-import ProfileCreateForm from "./profiles/ProfileCreateForm";
 import ProfileLoginForm from "./profiles/ProfileLoginForm";
-
+import { useRouter } from "next/router";
 const Login: React.FC = () => {
-  const { t } = useTranslation();
+  const router = useRouter();
   return (
-    <>
-      <section className="m-10 mt-0">
-        <h1 className="text-center text-xl">{t("login.message")}</h1>
+    <div className="flex flex-col justify-center">
+      <section className="w-min">
+        <h1 className="text-center text-3xl p-2 m-5 mt-10">
+          <strong>Login</strong>
+        </h1>
         <ProfileLoginForm />
       </section>
-      <section className="m-10 mt-0">
-        <h1>{t("login.profile.message")}</h1>
-        <ProfileCreateForm />
+      <p className="m-auto text-xl p-3">
+        <strong>Or</strong>
+      </p>
+      <section>
+        <button
+          className="w-full text-xl bg-white bg-opacity-50 rounded-lg"
+          onClick={() => router.push("login/create")}
+        >
+          <strong>Create Profile</strong>
+        </button>
       </section>
-    </>
+    </div>
   );
 };
 
