@@ -11,7 +11,7 @@ info:
     version: '1.0.0'
     title: tdinder API
     contact:
-        email: contact@tdinder.com
+        email: davybellens123@gmail.com
     license:
         name: Apache 2.0
         url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -19,6 +19,7 @@ info:
 tags:
     - name: profiles
     - name: files
+    - name: matches
 
 security:
     - BearerAuth: []
@@ -323,7 +324,7 @@ paths:
     /files/{filename}:
         get:
             tags:
-                - 'files'
+                - files
             summary: 'Download a file'
             produces:
                 - 'application/octet-stream'
@@ -335,13 +336,13 @@ paths:
                   description: 'The name of the file to be downloaded'
                   example: 'aple.jpg'
             responses:
-                200:
+                '200':
                     description: 'File downloaded successfully'
-                404:
+                '404':
                     description: 'File not found'
         delete:
             tags:
-                - 'files'
+                - files
             summary: 'Delete a file'
             parameters:
                 - in: 'path'
@@ -350,10 +351,162 @@ paths:
                   required: true
                   description: 'The name of the file to be deleted'
             responses:
-                200:
+                '200':
                     description: 'File deleted successfully'
-                404:
+                '404':
                     description: 'File not found'
+    /matches:
+        get:
+            tags:
+                - matches
+            summary: 'Get matches'
+            responses:
+                '200':
+                    description: 'Matches are found'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: 'success'
+                                    message:
+                                        type: string
+                                        example: 'all the matches'
+                                    matches:
+                                        type: array
+                                        items:
+                                            $ref: '#/components/schemas/Match'
+                '400':
+                    description: 'Not gret success'
+    /matches/match:
+        get:
+            tags:
+                - matches
+            summary: 'Get a match by its ID'
+            parameters:
+                - in: 'query'
+                  name: 'matchId'
+                  type: 'string'
+                  required: true
+                  example: 1
+            responses:
+                '200':
+                    description: 'Great success'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: 'success'
+                                    message:
+                                        type: string
+                                        example: 'all the matches'
+                                    matches:
+                                        type: array
+                                        items:
+                                            $ref: '#/components/schemas/Match'
+                '400':
+                    $ref: '#/components/responses/ApplicationError'
+        post:
+            tags:
+                - matches
+            summary: 'Match two profiles'
+            parameters:
+                - in: 'query'
+                  name: 'profileId1'
+                  type: 'string'
+                  required: true
+                  example: 1
+                - in: 'query'
+                  name: 'profileId2'
+                  type: 'string'
+                  required: true
+                  example: 2
+            responses:
+                '200':
+                    description: 'The Match object'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: 'success'
+                                    message:
+                                        type: string
+                                        example: 'succesfully unmatched profiles 1 and 2'
+                                    match:
+                                        $ref: '#/components/schemas/Match'
+    /matches/profile:
+        get:
+            tags:
+                - matches
+            summary: "Get all of a profile's matches"
+            parameters:
+                - in: 'query'
+                  name: 'profileId'
+                  type: 'string'
+                  required: true
+                  example: 1
+            responses:
+                '200':
+                    description: 'Matches are found'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: 'success'
+                                    message:
+                                        type: string
+                                        example: 'all the matches'
+                                    matches:
+                                        type: array
+                                        items:
+                                            $ref: '#/components/schemas/Match'
+                '400':
+                    description: 'Not gret success'
+    /matches/unmatch:
+        delete:
+            tags:
+                - matches
+            summary: 'unmatch two people'
+            parameters:
+                - in: 'query'
+                  name: 'profileId1'
+                  type: 'string'
+                  required: true
+                  example: 1
+                - in: 'query'
+                  name: 'profileId2'
+                  type: 'string'
+                  required: true
+                  example: 2
+            responses:
+                '200':
+                    description: 'The deleted Match object'
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: 'success'
+                                    message:
+                                        type: string
+                                        example: 'all the matches'
+                                    match:
+                                        $ref: '#/components/schemas/Match'
+                '400':
+                    description: 'Not gret success'
 components:
     securitySchemes:
         BearerAuth:
@@ -373,10 +526,10 @@ components:
                         properties:
                             email:
                                 type: string
-                                example: satoshi@tdinder.com
+                                example: 'TDINDER_TEST_ADMIN@tdinder.com'
                             password:
                                 type: string
-                                example: 'Str0ngPW!!!'
+                                example: 'TD1nder69!!!'
 
     responses:
         Authenicated:
@@ -397,7 +550,7 @@ components:
                                 example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhdG9zaGlAdGlzdHVkZW50LmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcwMzk0MzUzMiwiZXhwIjoxNzAzOTcyMzMyLCJpc3MiOiJ0aXN0dWRlbnRfYXBwIn0.M-kP0sNi9oAY7sCopgn9ioWuUbkNE8MgOMds5P8NQg0'
                             email:
                                 type: string
-                                example: 'satoshi@tdinder.com'
+                                example: 'TDINDER_TEST_ADMIN@tdinder.com'
                             id:
                                 type: integer
                                 example: 1
@@ -444,13 +597,13 @@ components:
             properties:
                 email:
                     type: string
-                    example: satoshi@tdinder.com
+                    example: 'TDINDER_TEST_ADMIN@tdinder.com'
                 username:
                     type: string
                     example: 'JJ'
                 password:
                     type: string
-                    example: 'Str0ngPW!!!'
+                    example: 'TD1nder69!!!'
                 role:
                     type: string
                     example: 'ADMIN'
@@ -475,259 +628,27 @@ components:
                     example: '2023-12-29T14:41:55.854Z'
                 email:
                     type: string
-                    example: satoshi@tdinder.com
+                    example: 'TDINDER_TEST_ADMIN@tdinder.com'
                 username:
                     type: string
                     example: 'JJ'
                 password:
                     type: string
-                    example: 'Str0ngPW!!!'
+                    example: 'TD1nder69!!!'
                 role:
                     type: string
                     example: 'ADMIN'
                 bio:
                     type: string
                     example: 'example bio'
-
-        CommentLikeInput:
-            type: object
-            required:
-                - profileId
-                - commentId
-            properties:
-                profileId:
-                    type: integer
-                    example: 1
-                commentId:
-                    type: integer
-                    example: 1
-
-        ResourceLikeInput:
-            type: object
-            required:
-                - profileId
-                - resourceId
-            properties:
-                profileId:
-                    type: integer
-                    example: 1
-                resourceId:
-                    type: integer
-                    example: 1
-
-        CommentLike:
-            type: object
-            properties:
-                createdAt:
-                    type: string
-                    example: '2023-12-29T14:41:55.854Z'
-                profileId:
-                    type: integer
-                    example: 1
-                commentId:
-                    type: integer
-                    example: 1
-
-        ResourceLike:
-            type: object
-            properties:
-                createdAt:
-                    type: string
-                    example: '2023-12-29T14:41:55.854Z'
-                profileId:
-                    type: integer
-                    example: 1
-                resourceId:
-                    type: integer
-                    example: 1
-
-        ResourceInput:
-            type: object
-            required:
-                - title
-                - description
-                - profileId
-            properties:
-                title:
-                    type: string
-                    example: 'example title'
-                description:
-                    type: string
-                    example: 'example description'
-                profileId:
-                    type: integer
-                    example: 1
-
-        Resource:
-            type: object
+        Match:
+            type: 'object'
             properties:
                 id:
                     type: integer
-                    example: 1
-                createdAt:
+                profileId1:
+                    type: integer
+                profileId2:
+                    type: integer
+                timestamp:
                     type: string
-                    example: '2023-12-29T14:41:55.854Z'
-                updatedAt:
-                    type: string
-                    example: '2023-12-29T14:41:55.854Z'
-                title:
-                    type: string
-                    example: 'example title'
-                description:
-                    type: string
-                    example: 'example description'
-                profileId:
-                    type: integer
-                    example: 1
-
-        ResourceData:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    example: 1
-                createdAt:
-                    type: string
-                    example: '2023-12-29T14:41:55.854Z'
-                updatedAt:
-                    type: string
-                    example: '2023-12-29T14:41:55.854Z'
-                title:
-                    type: string
-                    example: 'example title'
-                description:
-                    type: string
-                    example: 'example description'
-                profileId:
-                    type: integer
-                    example: 1
-                categories:
-                    type: array
-                    items:
-                        type: object
-                        properties:
-                            category:
-                                $ref: '#/components/schemas/Category'
-                subjects:
-                    type: array
-                    items:
-                        type: object
-                        properties:
-                            subject:
-                                $ref: '#/components/schemas/Subject'
-                comments:
-                    type: array
-                    items:
-                        type: object
-                        properties:
-                            id:
-                                type: integer
-                                example: 1
-                            createdAt:
-                                type: string
-                                example: '2023-12-29T14:41:55.854Z'
-                            updatedAt:
-                                type: string
-                                example: '2023-12-29T14:41:55.854Z'
-                            message:
-                                type: string
-                                example: 'example message'
-                            profile:
-                                type: object
-                                properties:
-                                    id:
-                                        type: integer
-                                        example: 1
-                                    username:
-                                        type: string
-                                        example: 'JJ'
-                            likes:
-                                type: array
-                                items:
-                                    $ref: '#/components/schemas/CommentLike'
-                likes:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/ResourceLike'
-
-        Category:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    example: 1
-                name:
-                    type: string
-                    example: 'Category Name'
-
-        Subject:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    example: 1
-                name:
-                    type: string
-                    example: 'Subject Name'
-
-        CategoryOnResource:
-            type: object
-            properties:
-                resourceId:
-                    type: integer
-                    example: 1
-                categoryId:
-                    type: integer
-                    example: 1
-
-        SubjectOnResource:
-            type: object
-            properties:
-                resourceId:
-                    type: integer
-                    example: 1
-                subjectId:
-                    type: integer
-                    example: 1
-
-        CommentInput:
-            type: object
-            required:
-                - message
-                - profileId
-                - resourceId
-            properties:
-                message:
-                    type: string
-                    example: 'example message'
-                profileId:
-                    type: integer
-                    example: 1
-                resourceId:
-                    type: integer
-                    example: 1
-
-        Comment:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    example: 1
-                createdAt:
-                    type: string
-                    example: '2023-12-29T14:41:55.854Z'
-                updatedAt:
-                    type: string
-                    example: '2023-12-29T14:41:55.854Z'
-                message:
-                    type: string
-                    example: 'example message'
-                profileId:
-                    type: integer
-                    example: 1
-                resourceId:
-                    type: integer
-                    example: 1
-                parentId:
-                    type: integer
-                    example: 1
