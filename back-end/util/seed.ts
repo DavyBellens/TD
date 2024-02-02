@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import { hashPassword } from './password';
-import { Subject, Category } from '../types';
 import database from './database';
 
 const prisma = new PrismaClient();
@@ -8,18 +7,34 @@ const prisma = new PrismaClient();
 async function main() {
     const dave = await database.profile.create({
         data: {
-            email: 'davybellens@tdinder.com',
-            username: 'dendave',
+            email: 'TDINDER_TEST_ADMIN@tdinder.com',
+            username: 'TDINDER_TEST_ADMIN',
             password: await hashPassword('TD1nder69!!!'),
             role: 'ADMIN',
-            orientation: 'STRAIGHT',
+            preference: 'FEMALE',
             bio: 'I have a girlfriend sorry',
             age: 20,
             gender: 'MAN',
-            interests: ['Coding'],
+            interests: ['Coding', 'Stefanie'],
+            socials: ['@davy.bellens', '', '@davy_bellens', '', ''],
         },
     });
     console.log(dave);
+    const steffie = await database.profile.create({
+        data: {
+            email: 'TDINDER_TEST_USER@tdinder.com',
+            username: 'TDINDER_TEST_USER',
+            password: await hashPassword('TD1nder69!!!'),
+            role: 'USER',
+            preference: 'MALE',
+            bio: "I'm the girlfriend",
+            age: 20,
+            gender: 'WOMAN',
+            interests: ['Volleybal', 'Anime', 'Davy'],
+            socials: ['@steffy', '', '@stef', '', ''],
+        },
+    });
+    console.log(steffie);
 }
 
 main()
