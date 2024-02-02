@@ -42,12 +42,6 @@ const Home: React.FC = () => {
       {!isLoading && (
         <>
           <Header current="home" isLoggedIn={isLoggedIn} />
-
-          <div className="pl-20 pr-20 grid grid-cols-2">
-            <Message />
-            <Welcome name={name} />
-          </div>
-
           <Footer />
         </>
       )}
