@@ -35,11 +35,11 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 255, 166, 129;
+    --background-end-rgb: 255, 61, 61;
 
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(to bottom right, rgba(1, 65, 255, 0), rgba(1, 65, 255, 0), rgba(1, 65, 255, 0.3));
+    /* --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
+    --secondary-glow: linear-gradient(to bottom right, rgba(1, 65, 255, 0), rgba(1, 65, 255, 0), rgba(1, 65, 255, 0.3)); */
 
     --tile-start-rgb: 2, 13, 46;
     --tile-end-rgb: 2, 5, 19;
@@ -65,47 +65,25 @@ body {
 }
 
 body {
+  background: rgb(255, 61, 61);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 166, 129, 1) 0%,
+    rgba(255, 129, 138, 1) 49%,
+    rgba(255, 61, 61, 1) 100%
+  );
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  /* background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb)); */
 }
 
-.subjects {
-  background-color: black;
-  border: 1px white solid;
-  & li {
-    color: #e1e1e1;
-    border-bottom: 1px rgb(167, 167, 167) solid;
-    &:hover {
-      background-color: #3f3f3f;
-    }
-  }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
-.subject-list {
-  background-color: white;
-  color: black;
-  font-size: 1rem;
-  &:hover {
-    background-color: #dedede;
-    color: black;
-  }
-}
-
-.resourceOverview {
-  display: grid;
-  grid-template-columns: 70% 30%;
-
-  & section#addResource {
-    margin: auto;
-    & a {
-      margin: 1rem;
-      background-color: white;
-      color: black;
-      &:hover {
-        background-color: #dbdbdb;
-      }
-    }
-  }
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 @media (prefers-color-scheme: dark) {
