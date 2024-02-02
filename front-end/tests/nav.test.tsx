@@ -18,9 +18,9 @@ describe("Navigation", () => {
 
     //then
     expect(screen.getByRole("navigation").textContent).toBe(
-      "header.nav.home" + "header.nav.resources" + "header.nav.profiles" + "header.nav.login"
+      "header.nav.home" + "header.nav.profiles" + "header.nav.login"
     );
-    expect(screen.getByRole("navigation").children).toHaveLength(4);
+    expect(screen.getByRole("navigation").children).toHaveLength(3);
   });
 
   test("given Nav component - when logged in - then last item is 'Logout' ", async () => {
@@ -30,9 +30,9 @@ describe("Navigation", () => {
     await screen.findByRole("navigation");
     //then
     expect(screen.getByRole("navigation").textContent).toEqual(
-      "header.nav.home" + "header.nav.resources" + "header.nav.profiles" + "header.nav.logout"
+      "header.nav.home" + "header.nav.profiles" + "header.nav.logout"
     );
-    expect(screen.getByRole("navigation").children).toHaveLength(4);
+    expect(screen.getByRole("navigation").children).toHaveLength(3);
   });
 
   test("given Nav component - when on a specific page - then this page's text has different style ", async () => {
