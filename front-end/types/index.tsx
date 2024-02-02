@@ -17,15 +17,27 @@ export type Resource = {
 
 export type Profile = {
   id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  latestActivity: Date;
   email: string;
   username: string;
   password: string;
   role: Role;
-  picture: string;
-  bio?: string;
+  age: number;
+  preference: string;
+  gender: string;
+  interests: string[];
+  socials: string[];
+  pictures: string[];
+  bio: string;
+};
+
+export type PersonalInformation = {
+  email: string;
+  username: string;
+  password: string;
+  role: Role;
+  age: number;
+  interests: string[];
+  bio: string;
 };
 
 export type Like = {
