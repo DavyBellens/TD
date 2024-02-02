@@ -1,35 +1,37 @@
-import { ProfileLikes, Role } from '../../types';
+import { Gender, Preference } from '@prisma/client';
+import { Role } from '../../types';
 import database from '../../util/database';
 import { Profile } from '../model/profile';
-import { ResourceLike } from '../model/resourceLike';
-import { CommentLike } from '../model/commentLike';
-import { Gender, Orientation } from '@prisma/client';
 
 const createProfile = async (
     email: string,
     password: string,
     username: string,
     role: Role,
-    orientation: Orientation,
+    preference: Preference,
     age: number,
     gender: Gender,
     interests: string[],
+    socials: string[],
     pictures: string[],
     bio?: string
 ): Promise<Profile> => {
     try {
         const profilePrisma = await database.profile.create({
             data: {
+                createdAt: new Date(),
+                updatedAt: new Date(),
                 email,
                 username,
                 password,
                 role,
-                orientation,
+                preference,
                 pictures,
                 bio,
                 age,
                 gender,
                 interests,
+                socials,
             },
         });
         if (profilePrisma) return Profile.from(profilePrisma);
@@ -156,16 +158,81 @@ const updateRole = async (id: number, newRole: Role): Promise<Profile> => {
     }
 };
 
-const updatePicture = async (id: number, newPicture: string): Promise<Profile> => {
+const updatePictures = async (id: number, newPictures: string[]): Promise<Profile> => {
     try {
         const updatedProfile = await database.profile.update({
             where: { id },
-            data: { pictures: [...newPicture] },
+            data: { pictures: newPictures },
         });
         return Profile.from(updatedProfile);
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile role. See server log for details.');
+    }
+};
+
+const updatePreference = async (id: number, newPreference: Preference) => {
+    try {
+        const updatedProfile = await database.profile.update({
+            where: { id },
+            data: { preference: newPreference },
+        });
+        return Profile.from(updatedProfile);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error when updating profile preference. See server log for details.');
+    }
+};
+
+const updateAge = async (id: number, newAge: number) => {
+    try {
+        const updatedProfile = await database.profile.update({
+            where: { id },
+            data: { age: newAge },
+        });
+        return Profile.from(updatedProfile);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error when updating profile age. See server log for details.');
+    }
+};
+
+const updateGender = async (id: number, newGender: Gender) => {
+    try {
+        const updatedProfile = await database.profile.update({
+            where: { id },
+            data: { gender: newGender },
+        });
+        return Profile.from(updatedProfile);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error when updating profile gender. See server log for details.');
+    }
+};
+
+const updateInterests = async (id: number, newInterests: string[]) => {
+    try {
+        const updatedProfile = await database.profile.update({
+            where: { id },
+            data: { interests: newInterests },
+        });
+        return Profile.from(updatedProfile);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error when updating profile interests. See server log for details.');
+    }
+};
+
+const updateSocials = async (id: number, newSocials: string[]) => {
+    try {
+        const updatedProfile = await database.profile.update({
+            where: { id },
+            data: { socials: newSocials },
+        });
+        return Profile.from(updatedProfile);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error when updating profile socials. See server log for details.');
     }
 };
 
@@ -192,6 +259,11 @@ export default {
     updatePassword,
     updateUsername,
     updateRole,
-    updatePicture,
+    updatePictures,
+    updatePreference,
+    updateAge,
+    updateGender,
+    updateInterests,
+    updateSocials,
     deleteProfile,
 };
