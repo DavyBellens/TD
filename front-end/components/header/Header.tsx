@@ -1,17 +1,17 @@
+import { Gender, Preference } from "@/types";
 import React from "react";
-import Logo from "./Logo";
 import Nav from "./Nav";
 
 type Props = {
-  current: string;
-  isLoggedIn?: boolean;
+  isLoggedIn: boolean;
+  gender?: Gender;
+  preference?: Preference;
 };
 
-const Header: React.FC<Props> = ({ current, isLoggedIn }: Props) => {
+const Header: React.FC<Props> = ({ isLoggedIn, gender, preference }: Props) => {
   return (
-    <header role="header" className="p-2 flex gap-10 items-center flex-col">
-      <Logo />
-      <Nav current={current} isLoggedIn={isLoggedIn} />
+    <header role="header" className=" flex gap-5 items-center flex-col">
+      <Nav isLoggedIn={isLoggedIn} gender={gender} preference={preference} />
     </header>
   );
 };

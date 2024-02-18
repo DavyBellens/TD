@@ -1,4 +1,4 @@
-import ProfileLoginForm from "./profiles/ProfileLoginForm";
+import ProfileLoginForm from "../profiles/ProfileLoginForm";
 import { useRouter } from "next/router";
 const Login: React.FC = () => {
   const router = useRouter();

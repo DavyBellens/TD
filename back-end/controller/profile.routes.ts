@@ -2,6 +2,8 @@ import express, { NextFunction, Request, Response } from 'express';
 import { Profile } from '../domain/model/profile';
 import profileService from '../service/profile.service';
 import { AuthenticationResponse, ProfileInput } from '../types';
+import { Preference } from '@prisma/client';
+import { authRouter } from './auth.routes';
 
 const profileRouter = express.Router();
 
@@ -14,6 +16,20 @@ profileRouter.get('/', async (_req: Request, res: Response, next: NextFunction) 
         next(error);
     }
 });
+
+profileRouter.get(
+    '/preference',
+    async (req: Request & { auth: AuthenticationResponse }, res: Response, next: NextFunction) => {
+        try {
+            const preference = String(req.query.preference);
+            const auth = req.auth;
+            const profiles = await profileService.getAllPossibleMatches(preference as Preference, auth);
+            res.status(200).json({ status: 'success', message: 'possible matches found', profiles });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 profileRouter.get('/:profileId', async (req: Request, res: Response, next: NextFunction) => {
     try {

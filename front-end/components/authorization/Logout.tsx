@@ -1,14 +1,11 @@
-import { useTranslation } from "next-i18next";
-
 type Props = {
   callBack: Function;
 };
 const Logout: React.FC<Props> = ({ callBack }: Props) => {
-  const { t } = useTranslation();
   return (
     <section className="m-10 mt-0 text-center">
-      <h1 className="text-center text-xl">{t("logout.message")}</h1>
       <form
+        className="flex justify-center"
         onSubmit={(e) => {
           e.preventDefault();
           sessionStorage.removeItem("loggedInUser");
@@ -16,8 +13,11 @@ const Logout: React.FC<Props> = ({ callBack }: Props) => {
           callBack(null);
         }}
       >
-        <button type="submit" className="text-center hover:bg-gray-500 p-1 text-xl">
-          {t("logout.button")}
+        <button
+          type="submit"
+          className="text-center bg-white bg-opacity-50 rounded-xl p-1 m-14 text-xl flex items-center"
+        >
+          <span className="text-3xl">🚪</span>Leave
         </button>
       </form>
     </section>

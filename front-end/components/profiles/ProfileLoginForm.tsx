@@ -2,6 +2,7 @@ import ProfileService from "@/services/ProfileService";
 import { StatusMessage } from "@/types";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
+import InputField from "./personalInformation/InputField";
 
 const ProfileLoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -35,15 +36,20 @@ const ProfileLoginForm: React.FC = () => {
   const loginUser = async () => {
     try {
       const res = await ProfileService.loginUser(email, password);
+      const response = await res.json();
 
       if (res.status === 401) {
-        const { errorMessage } = await res.json();
+        const { errorMessage } = response.message;
         setStatusMessages([{ message: errorMessage, type: "error" }]);
         return;
       }
 
       if (res.status === 400) {
-        setPasswordError("Incorrect password");
+        if (response.message === 'Profile with email "' + email + '" does not exist') {
+          setEmailError("Profile with this email does not exist");
+        } else if (response.message === "Invalid password") {
+          setPasswordError("Incorrect password");
+        }
         return;
       }
 
@@ -57,19 +63,17 @@ const ProfileLoginForm: React.FC = () => {
         return;
       }
 
-      const user = await res.json();
-      console.log(user);
-
       sessionStorage.setItem(
         "loggedInUser",
         JSON.stringify({
-          id: user.profile.id,
-          username: user.profile.username,
-          email: user.profile.email,
-          role: user.profile.role,
+          id: response.profile.id,
+          name: response.profile.name,
+          email: response.profile.email,
+          role: response.profile.role,
         })
       );
-      sessionStorage.setItem("token", JSON.stringify({ value: user.token.value }));
+
+      sessionStorage.setItem("token", JSON.stringify({ value: response.token.value }));
 
       setStatusMessages([{ message: "Login successful! Redirecting...", type: "success" }]);
       setTimeout(() => {
@@ -90,7 +94,8 @@ const ProfileLoginForm: React.FC = () => {
       console.log(error);
     }
   };
-
+  const input = "mb-1 bg-white bg-opacity-75 text-black p-1 rounded-lg";
+  const label = "mb-1 text-xl";
   return (
     <>
       {statusMessages && (
@@ -102,28 +107,26 @@ const ProfileLoginForm: React.FC = () => {
           ))}
         </ul>
       )}
-
       <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
-        <label htmlFor="emailInput" className="mb-1 text-xl">
-          <strong>Email</strong>
-        </label>
-        <input
+        <InputField
+          field="Email"
           id="emailInput"
           type="email"
           value={email}
-          className="mb-1 bg-white bg-opacity-75 text-black p-1 rounded-lg"
-          onChange={(e) => setEmail(e.target.value)}
+          callBack={setEmail}
+          inputStyle={input}
+          labelStyle={label}
         />
         {emailError && <div>{emailError}</div>}
 
-        <label htmlFor="passwordInput" className="mb-1 text-xl">
-          <strong>Password</strong>
-        </label>
-        <input
+        <InputField
+          field="Password"
           id="passwordInput"
           type="password"
-          className="mb-1 bg-white bg-opacity-75 text-black p-1 rounded-lg"
-          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          callBack={setPassword}
+          inputStyle={input}
+          labelStyle={label}
         />
         {passwordError && <div>{passwordError}</div>}
 

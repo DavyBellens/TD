@@ -6,13 +6,13 @@ import { Profile } from '../model/profile';
 const createProfile = async (
     email: string,
     password: string,
-    username: string,
+    name: string,
     role: Role,
     preference: Preference,
     age: number,
     gender: Gender,
     interests: string[],
-    socials: string[],
+    socials: (string | null)[],
     pictures: string[],
     bio?: string
 ): Promise<Profile> => {
@@ -22,16 +22,17 @@ const createProfile = async (
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 email,
-                username,
+                name,
                 password,
                 role,
                 preference,
-                pictures,
                 bio,
                 age,
                 gender,
                 interests,
-                socials,
+                pictures,
+                socials: socials.map((s) => (s !== null ? s : '')),
+                swipedRightEmails: [],
             },
         });
         if (profilePrisma) return Profile.from(profilePrisma);
@@ -62,20 +63,6 @@ const getProfileById = async (id: number): Promise<Profile> => {
     } catch (error) {
         console.log(error);
         throw new Error('Database error when getting profile by id. See server log for details.');
-    }
-};
-
-const getProfileByUsername = async (username: string): Promise<Profile> => {
-    try {
-        const profilePrisma = await database.profile.findUnique({
-            where: {
-                username,
-            },
-        });
-        if (profilePrisma) return Profile.from(profilePrisma);
-    } catch (error) {
-        console.log(error);
-        throw new Error('Database error when getting profile by username. See server log for details.');
     }
 };
 
@@ -132,16 +119,16 @@ const updatePassword = async (id: number, newPassword: string): Promise<Profile>
     }
 };
 
-const updateUsername = async (id: number, newUsername: string): Promise<Profile> => {
+const updateName = async (id: number, newName: string): Promise<Profile> => {
     try {
         const updatedProfile = await database.profile.update({
             where: { id },
-            data: { username: newUsername },
+            data: { name: newName },
         });
         return Profile.from(updatedProfile);
     } catch (error) {
         console.error(error);
-        throw new Error('Database error when updating profile username. See server log for details.');
+        throw new Error('Database error when updating profile Name. See server log for details.');
     }
 };
 
@@ -235,6 +222,18 @@ const updateSocials = async (id: number, newSocials: string[]) => {
         throw new Error('Database error when updating profile socials. See server log for details.');
     }
 };
+const updateSwiped = async (id: number, newSwiped: string[]) => {
+    try {
+        const updatedProfile = await database.profile.update({
+            where: { id },
+            data: { swipedRightEmails: newSwiped },
+        });
+        return Profile.from(updatedProfile);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error when updating profile swiped emails. See server log for details.');
+    }
+};
 
 const deleteProfile = async (id: number): Promise<Profile> => {
     try {
@@ -248,16 +247,28 @@ const deleteProfile = async (id: number): Promise<Profile> => {
     }
 };
 
+const getAllProfilesByGender = async (gender: Gender) => {
+    try {
+        const prismaProfiles = await database.profile.findMany({
+            where: { gender },
+        });
+        return prismaProfiles ? prismaProfiles.map((p) => Profile.from(p)) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error when deleting profile. See server log for details.');
+    }
+};
+
 export default {
+    getAllProfilesByGender,
     createProfile,
     getAllProfiles,
     getProfileById,
-    getProfileByUsername,
     getProfileByEmail,
     updateBio,
     updateEmail,
     updatePassword,
-    updateUsername,
+    updateName,
     updateRole,
     updatePictures,
     updatePreference,
@@ -265,5 +276,6 @@ export default {
     updateGender,
     updateInterests,
     updateSocials,
+    updateSwiped,
     deleteProfile,
 };

@@ -1,6 +1,5 @@
-import Create from "@/components/Create";
 import Footer from "@/components/Footer";
-import Login from "@/components/Login";
+import ProfileCreateForm from "@/components/profiles/ProfileCreateForm";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
@@ -11,15 +10,19 @@ const CreatePage: React.FC = () => {
   }, [user]);
 
   return (
-    <>
+    <div className="app">
       <Head>
         <title>Login</title>
       </Head>
       <main className="flex flex-row align-middle items-center justify-center">
-        <Create />
+        <div className="flex flex-col justify-center">
+          <section className="w-min">
+            <ProfileCreateForm />
+          </section>
+        </div>
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

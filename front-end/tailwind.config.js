@@ -11,6 +11,9 @@ module.exports = {
         "tistudent-blue": "#0b2d59",
       },
     },
+    screens: {
+      sm: "230px",
+    },
   },
   plugins: [],
 };

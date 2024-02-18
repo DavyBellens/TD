@@ -8,10 +8,9 @@ const authRouter = express.Router();
 authRouter.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const profileInput: ProfileInput = req.body as ProfileInput;
-
         const profile: Profile = await profileService.createProfile(profileInput);
 
-        res.status(200).json({ status: 'success', message: 'profile created', profile });
+        res.status(200).json({ status: 'success', message: 'Profile created, redirecting...', profile });
     } catch (error) {
         next(error);
     }
@@ -25,6 +24,16 @@ authRouter.post('/signin', async (req: Request, res: Response, next: NextFunctio
         const data: AuthenticationResponse = await profileService.authenticate(email, password);
 
         res.status(200).json({ status: 'success', message: 'authentication successful', ...data });
+    } catch (error) {
+        next(error);
+    }
+});
+
+authRouter.get('/email', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const email: string = String(req.query.email);
+        await profileService.getProfileByEmail(email);
+        res.status(200).json(true);
     } catch (error) {
         next(error);
     }

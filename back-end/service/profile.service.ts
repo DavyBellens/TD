@@ -7,11 +7,9 @@ import { generateJwtToken } from '../util/jwt';
 import { comparePasswordWithHash, hashPassword } from '../util/password';
 
 const createProfile = async (profileInput: ProfileInput): Promise<Profile> => {
-    const { email, username, password, role, preference, age, gender, interests, socials, pictures, bio } =
-        profileInput;
-    Profile.validate(email, username, password, role, preference, age, gender, interests, socials, pictures, bio);
+    const { email, name, password, role, preference, age, gender, interests, socials, pictures, bio } = profileInput;
 
-    if (await profileDb.getProfileByUsername(username)) throw new Error(`Username already exists`);
+    Profile.validate(email, name, password, role, preference, age, gender, interests, socials, pictures, bio);
 
     if (await profileDb.getProfileByEmail(email)) throw new Error(`Email already exists`);
 
@@ -20,7 +18,7 @@ const createProfile = async (profileInput: ProfileInput): Promise<Profile> => {
     return await profileDb.createProfile(
         email,
         hashedPassword,
-        username,
+        name,
         role,
         preference,
         age,
@@ -53,12 +51,6 @@ const getProfileByEmail = async (email: string): Promise<Profile> => {
     return profile;
 };
 
-const getProfileByUsername = async (username: string): Promise<Profile> => {
-    const profile = await profileDb.getProfileByUsername(username);
-    if (!profile) throw new Error(`Profile with username "${username}" does not exist`);
-    return profile;
-};
-
 const updateBio = async (profile: Profile, bio: string): Promise<Profile> => {
     Profile.validateBio(bio);
     return await profileDb.updateBio(profile.id, bio);
@@ -66,7 +58,6 @@ const updateBio = async (profile: Profile, bio: string): Promise<Profile> => {
 
 const updateEmail = async (profile: Profile, email: string): Promise<Profile> => {
     Profile.validateEmail(email);
-    if (await profileDb.getProfileByEmail(email)) throw new Error(`Email already exists`);
     return await profileDb.updateEmail(profile.id, email);
 };
 
@@ -76,10 +67,9 @@ const updatePassword = async (profile: Profile, password: string): Promise<Profi
     return await profileDb.updatePassword(profile.id, hashedPassword);
 };
 
-const updateUsername = async (profile: Profile, username: string): Promise<Profile> => {
-    Profile.validateUsername(username);
-    if (await profileDb.getProfileByUsername(username)) throw new Error(`Username already exists`);
-    return await profileDb.updateUsername(profile.id, username);
+const updateName = async (profile: Profile, name: string): Promise<Profile> => {
+    Profile.validateName(name);
+    return await profileDb.updateName(profile.id, name);
 };
 
 const updateRole = async (profile: Profile, role: Role): Promise<Profile> => {
@@ -130,15 +120,11 @@ const updateProfile = async (
     }
 
     const profile = await getProfileById(profileId);
-    const { email, password, username, role, preference, age, gender, interests, socials, pictures, bio } =
-        profileInput;
+    const { email, password, name, role, preference, age, gender, interests, socials, pictures, bio } = profileInput;
 
     if (email) {
-        if (await profileDb.getProfileByEmail(email)) throw new Error(`Email already exists`);
-    }
-
-    if (username) {
-        if (await profileDb.getProfileByUsername(username)) throw new Error(`Username already exists`);
+        const p = await profileDb.getProfileByEmail(email);
+        if (p.id != profileId) throw new Error(`Email already exists`);
     }
 
     let result: Profile;
@@ -159,8 +145,8 @@ const updateProfile = async (
         result = await updateRole(profile, role);
     }
 
-    if (username) {
-        result = await updateUsername(profile, username);
+    if (name) {
+        result = await updateName(profile, name);
     }
 
     if (pictures) {
@@ -212,20 +198,37 @@ const authenticate = async (email: string, password: string): Promise<Authentica
         },
         profile: {
             email: email,
-            username: profile.username,
+            name: profile.name,
             id: String(profile.id),
             role: profile.role,
         },
     };
 };
 
+const getAllPossibleMatches = async (preference: Preference, auth: any) => {
+    if (!Object.values(Preference).includes(preference)) throw new Error('Invalid preference');
+    const email: string = auth.email;
+    if (preference === 'FEMALE') {
+        return (await profileDb.getAllProfilesByGender('WOMAN')).filter((p) => p.email != email);
+    } else if (preference === 'MALE') {
+        return (await profileDb.getAllProfilesByGender('MAN')).filter((p) => p.email != email);
+    } else if (preference === 'BOTH') {
+        return [
+            ...(await profileDb.getAllProfilesByGender('MAN')),
+            ...(await profileDb.getAllProfilesByGender('WOMAN')),
+        ].filter((p) => p.email != email);
+    } else if (preference === 'OTHER') {
+        return (await profileDb.getAllProfiles()).filter((p) => p.email != email);
+    }
+};
+
 export default {
+    getAllPossibleMatches,
     createProfile,
     getAllProfiles,
     getProfileById,
     getProfileByEmail,
-    getProfileByUsername,
-    updateUsername,
+    updateName,
     updateEmail,
     updatePassword,
     updateRole,

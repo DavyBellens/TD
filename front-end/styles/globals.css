@@ -58,6 +58,10 @@
   margin: 0;
 }
 
+.image-container {
+  height: 300px;
+}
+
 html,
 body {
   max-width: 100vw;
@@ -73,8 +77,35 @@ body {
     rgba(255, 129, 138, 1) 49%,
     rgba(255, 61, 61, 1) 100%
   );
+  background-attachment: fixed;
   color: rgb(var(--foreground-rgb));
   /* background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb)); */
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+nav {
+  background-color: #ffc7ba;
+}
+
+input.pictureUpload[type="file"]::file-selector-button {
+  background-color: white;
+  opacity: 50%;
+  color: black;
+  border-radius: 0.5rem;
+  border: none;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  margin-top: auto;
 }
 
 input[type="number"]::-webkit-inner-spin-button,

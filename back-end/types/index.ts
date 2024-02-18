@@ -4,7 +4,7 @@ type Role = 'ADMIN' | 'USER';
 
 type ProfileInput = {
     email?: string;
-    username?: string;
+    name?: string;
     password?: string;
     role?: Role;
     age?: number;
@@ -14,7 +14,24 @@ type ProfileInput = {
     socials?: string[];
     pictures?: string[];
     bio?: string;
+    swiped: ProfileInput[];
     matches?: Match[];
+};
+
+type ProfileReply = {
+    personalInformation: {
+        email: string;
+        name: string;
+        password: string;
+        role: Role;
+        age: number;
+        interests?: string[];
+        bio?: string;
+    };
+    preference: Preference;
+    gender: Gender;
+    socials: string[];
+    pictures: string[];
 };
 
 type Token = {
@@ -29,7 +46,7 @@ type AuthenticatedToken = {
 
 type AuthenticatedProfile = {
     email: string;
-    username: string;
+    name: string;
     id: string;
     role: Role;
 };
@@ -39,4 +56,4 @@ type AuthenticationResponse = {
     profile: AuthenticatedProfile;
 };
 
-export { Role, ProfileInput, AuthenticatedToken, AuthenticationResponse };
+export { Role, ProfileInput, ProfileReply, AuthenticatedToken, AuthenticationResponse };

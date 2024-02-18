@@ -6,7 +6,7 @@ export class Profile {
     readonly createdAt: Date;
     readonly updatedAt: Date;
     readonly email: string;
-    readonly username: string;
+    readonly name: string;
     readonly password: string;
     readonly role: Role;
     readonly preference: Preference;
@@ -22,7 +22,7 @@ export class Profile {
         createdAt: Date;
         updatedAt: Date;
         email: string;
-        username: string;
+        name: string;
         password: string;
         role: Role;
         preference: Preference;
@@ -35,7 +35,7 @@ export class Profile {
     }) {
         Profile.validate(
             profile.email,
-            profile.username,
+            profile.name,
             profile.password,
             profile.role,
             profile.preference,
@@ -50,7 +50,7 @@ export class Profile {
         this.createdAt = profile.createdAt;
         this.updatedAt = profile.updatedAt;
         this.email = profile.email;
-        this.username = profile.username;
+        this.name = profile.name;
         this.password = profile.password;
         this.role = profile.role;
         this.preference = profile.preference;
@@ -64,7 +64,7 @@ export class Profile {
 
     equals(otherProfile: {
         email: string;
-        username: string;
+        name: string;
         password: string;
         role: Role;
         preference: Preference;
@@ -77,7 +77,7 @@ export class Profile {
     }): boolean {
         return (
             this.email === otherProfile.email &&
-            this.username === otherProfile.username &&
+            this.name === otherProfile.name &&
             this.password === otherProfile.password &&
             this.role === otherProfile.role &&
             this.preference === otherProfile.preference &&
@@ -92,7 +92,7 @@ export class Profile {
 
     static validate(
         email: string,
-        username: string,
+        name: string,
         password: string,
         role: Role,
         preference: Preference,
@@ -104,7 +104,7 @@ export class Profile {
         bio?: string
     ): void {
         Profile.validateEmail(email);
-        Profile.validateUsername(username);
+        Profile.validateName(name);
         Profile.validatePassword(password);
         Profile.validateRole(role);
         Profile.validatePreference(preference);
@@ -134,9 +134,9 @@ export class Profile {
         }
     };
 
-    static validateUsername = (username: string): void => {
-        if (!username) throw new Error('Username is required');
-        if (username.length > 50) throw new Error('Username cannot be longer than 50 characters');
+    static validateName = (name: string): void => {
+        if (!name) throw new Error('Name is required');
+        if (name.length > 50) throw new Error('Name cannot be longer than 50 characters');
     };
 
     static validateBio = (bio: string): void => {
@@ -170,11 +170,11 @@ export class Profile {
 
     static validateSocials = (socials: string[]) => {
         if (socials.length !== 5) throw new Error('List of socials must be 5 long');
-        let count = 0;
+        let nullCount = 0;
         socials.forEach((i) => {
-            if (i.trim()) count += 1;
+            if (i == undefined) nullCount += 1;
         });
-        if (count < 1) throw new Error('At least one social is required');
+        if (nullCount == 5) throw new Error('At least one social is required');
     };
 
     static from({
@@ -182,7 +182,7 @@ export class Profile {
         createdAt,
         updatedAt,
         email,
-        username,
+        name,
         password,
         role,
         preference,
@@ -198,7 +198,7 @@ export class Profile {
             createdAt,
             updatedAt,
             email,
-            username,
+            name,
             password,
             role,
             preference,

@@ -1,30 +1,51 @@
+import { Gender, Preference } from "@/types";
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
 
 type Props = {
-  current: string;
-  isLoggedIn?: boolean;
+  isLoggedIn: boolean;
+  gender?: Gender;
+  preference?: Preference;
 };
 
-const Nav: React.FC<Props> = ({ current, isLoggedIn }: Props) => {
-  const { t } = useTranslation();
-
-  const currentStyle = "text-xl text-blue-500";
-  const basic = "text-xl text-white hover:text-blue-500";
-
+const Nav: React.FC<Props> = ({ isLoggedIn, gender, preference }: Props) => {
   return (
-    <nav className="flex gap-5" role="navigation">
-      <Link href="/" className={current == "home" ? currentStyle : basic}>
-        {t("header.nav.home")}
-      </Link>
-
-      <Link href="/profiles" className={current == "profiles" ? currentStyle : basic}>
-        {t("header.nav.profiles")}
-      </Link>
-
-      <Link href="/login" className={current == "login" ? currentStyle : basic}>
-        {isLoggedIn ? t("header.nav.logout") : t("header.nav.login")}
-      </Link>
+    <nav className="flex justify-evenly gap-3 w-screen p-3" role="navigation">
+      {isLoggedIn ? (
+        <>
+          <Link href="/options" className={"text-3xl flex items-center font-mono text-red-700 text-opacity-60 "}>
+            ☰
+          </Link>
+          <Link href="/" className={"text-4xl"}>
+            {preference === "FEMALE" && gender === "WOMAN" && "👩‍❤️‍👩"}
+            {preference === "MALE" && gender === "MAN" && "👨‍❤️‍👨"}
+            {((preference === "FEMALE" && gender === "MAN") || (preference === "MALE" && gender === "WOMAN")) &&
+              "👨‍❤️‍👩"}
+            {(gender === "OTHER" ||
+              gender === "SECRET" ||
+              gender === "X" ||
+              preference === "BOTH" ||
+              preference === "OTHER/SECRET") &&
+              "💑"}
+          </Link>
+          <Link href="/profiles" className={"text-4xl"}>
+            {preference === "FEMALE" && gender === "WOMAN" && "👩‍🤝‍👩"}
+            {preference === "MALE" && gender === "MAN" && "👨‍🤝‍👨"}
+            {((preference === "FEMALE" && gender === "MAN") || (preference === "MALE" && gender === "WOMAN")) &&
+              "👨‍🤝‍👩"}
+            {(gender === "OTHER" ||
+              gender === "SECRET" ||
+              gender === "X" ||
+              preference === "BOTH" ||
+              preference === "OTHER/SECRET") &&
+              "🧑‍🤝‍🧑"}
+            {/* 🔗👨🏻‍🤝‍👩🏽 */}
+          </Link>
+        </>
+      ) : (
+        <Link href={"/login"} className="text-xl text-white flex items-center ">
+          Login
+        </Link>
+      )}
     </nav>
   );
 };

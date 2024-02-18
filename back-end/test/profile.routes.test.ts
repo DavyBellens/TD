@@ -5,7 +5,7 @@ import { comparePasswordWithHash } from '../util/password';
 
 describe('test PROFILE endpoints', () => {
     const email = 'AppTest@tdinder.com';
-    const username = 'AppTest';
+    const name = 'AppTest';
     const password = 'TD1nder69!!!';
     const role = 'USER';
     const preference = 'FEMALE' as Preference;
@@ -17,7 +17,7 @@ describe('test PROFILE endpoints', () => {
     const bio = "Steffie's bf";
 
     const adminEmail = 'stefanie@tdinder.com';
-    const adminUsername = 'beffie';
+    const adminName = 'beffie';
     const adminPassword = 'TD1nder69!!!';
     const adminRole = 'ADMIN';
     const adminPreference = 'MALE' as Preference;
@@ -29,7 +29,7 @@ describe('test PROFILE endpoints', () => {
     const adminBio = "Davy's gf";
 
     const thirdUserEmail = 'third@tdinder.com';
-    const thirdUserUsername = 'randomchickie123';
+    const thirdName = 'randomchickie123';
     const thirdUserPassword = 'TD1nder69!!!';
     const thirdUserRole = 'USER';
     const thirdUserPreference = 'BOTH' as Preference;
@@ -47,7 +47,7 @@ describe('test PROFILE endpoints', () => {
     let adminToken: string;
 
     const updatedEmail = 'updatedAppTest@tdinder.com';
-    const updatedUsername = 'UpdatedAppTest';
+    const updatedName = 'UpdatedAppTest';
     const updatedPassword = 'updatedTD1nder69!!!';
     const updatedRole = 'ADMIN';
     const updatedPreference = 'MALE' as Preference;
@@ -59,7 +59,7 @@ describe('test PROFILE endpoints', () => {
     const updatedBio = 'Updated Testing profile';
 
     const updatedAdminEmail = 'adminUpdatedAppTest@tdinder.com';
-    const updatedAdminUsername = 'adminUpdatedAppTest';
+    const updatedAdminName = 'adminUpdatedAppTest';
     const updatedAdminPassword = 'adminUpdatedTD1nder69!!!';
     const updatedAdminRole = 'ADMIN';
     const updatedAdminPreference = 'FEMALE' as Preference;
@@ -79,7 +79,7 @@ describe('test PROFILE endpoints', () => {
                         .send({
                             email,
                             password,
-                            username,
+                            name,
                             role,
                             preference,
                             age,
@@ -96,7 +96,7 @@ describe('test PROFILE endpoints', () => {
                     expect(res.body.message).toEqual('profile created');
                     expect(res.body.profile.email).toEqual(email);
                     expect(await comparePasswordWithHash(password, res.body.profile.password)).toEqual(true);
-                    expect(res.body.profile.username).toEqual(username);
+                    expect(res.body.profile.name).toEqual(name);
                     expect(res.body.profile.role).toEqual(role);
                     expect(res.body.profile.preference).toEqual(preference);
                     expect(res.body.profile.age).toEqual(age);
@@ -117,7 +117,7 @@ describe('test PROFILE endpoints', () => {
                         .send({
                             email: thirdUserEmail,
                             password: thirdUserPassword,
-                            username: thirdUserUsername,
+                            name: thirdName,
                             role: thirdUserRole,
                             preference: thirdUserPreference,
                             age: thirdUserAge,
@@ -134,7 +134,7 @@ describe('test PROFILE endpoints', () => {
                     expect(res.body.message).toEqual('profile created');
                     expect(res.body.profile.email).toEqual(thirdUserEmail);
                     expect(await comparePasswordWithHash(thirdUserPassword, res.body.profile.password)).toEqual(true);
-                    expect(res.body.profile.username).toEqual(thirdUserUsername);
+                    expect(res.body.profile.name).toEqual(thirdName);
                     expect(res.body.profile.role).toEqual(thirdUserRole);
                     expect(res.body.profile.preference).toEqual(thirdUserPreference);
                     expect(res.body.profile.age).toEqual(thirdUserAge);
@@ -155,7 +155,7 @@ describe('test PROFILE endpoints', () => {
                         .send({
                             email: adminEmail,
                             password: adminPassword,
-                            username: adminUsername,
+                            name: adminName,
                             role: adminRole,
                             preference: adminPreference,
                             age: adminAge,
@@ -172,7 +172,7 @@ describe('test PROFILE endpoints', () => {
                     expect(res.body.message).toEqual('profile created');
                     expect(res.body.profile.email).toEqual(adminEmail);
                     expect(await comparePasswordWithHash(adminPassword, res.body.profile.password)).toEqual(true);
-                    expect(res.body.profile.username).toEqual(adminUsername);
+                    expect(res.body.profile.name).toEqual(adminName);
                     expect(res.body.profile.role).toEqual(adminRole);
                     expect(res.body.profile.preference).toEqual(adminPreference);
                     expect(res.body.profile.age).toEqual(adminAge);
@@ -190,7 +190,7 @@ describe('test PROFILE endpoints', () => {
             describe('Unhappy Cases', () => {
                 test('Create profile with existing email', async () => {
                     // given
-                    const username = 'AppTest2';
+                    const name = 'AppTest2';
 
                     // when
                     const res = await request(app)
@@ -198,7 +198,7 @@ describe('test PROFILE endpoints', () => {
                         .send({
                             email,
                             password,
-                            username,
+                            name,
                             role,
                             preference,
                             age,
@@ -213,33 +213,6 @@ describe('test PROFILE endpoints', () => {
                     expect(res.status).toEqual(400);
                     expect(res.body.status).toEqual('application error');
                     expect(res.body.message).toEqual('Email already exists');
-                });
-
-                test('Create profile with existing username', async () => {
-                    // given
-                    const email = '@app.test2.ts';
-
-                    // when
-                    const res = await request(app)
-                        .post('/signup')
-                        .send({
-                            email,
-                            password,
-                            username,
-                            role,
-                            preference,
-                            age,
-                            gender,
-                            interests,
-                            socials,
-                            pictures: [picture],
-                            bio,
-                        });
-
-                    // then
-                    expect(res.status).toEqual(400);
-                    expect(res.body.status).toEqual('application error');
-                    expect(res.body.message).toEqual('Username already exists');
                 });
             });
         });
@@ -283,7 +256,7 @@ describe('test PROFILE endpoints', () => {
                     expect(res.body.profile.id).toEqual(id);
                     expect(res.body.profile.email).toEqual(email);
                     expect(await comparePasswordWithHash(password, res.body.profile.password)).toEqual(true);
-                    expect(res.body.profile.username).toEqual(username);
+                    expect(res.body.profile.name).toEqual(name);
                     expect(res.body.profile.role).toEqual(role);
                     expect(res.body.profile.bio).toEqual(bio);
                     expect(res.body.profile.pictures).toEqual([picture]);
@@ -326,7 +299,7 @@ describe('test PROFILE endpoints', () => {
                         .send({
                             email: updatedEmail,
                             password: updatedPassword,
-                            username: updatedUsername,
+                            name: updatedName,
                             role: updatedRole,
                             preference: updatedPreference,
                             age: updatedAge,
@@ -348,7 +321,7 @@ describe('test PROFILE endpoints', () => {
                         true
                     );
                     expect(res.body.updatedProfile.role).toEqual(updatedRole);
-                    expect(res.body.updatedProfile.username).toEqual(updatedUsername);
+                    expect(res.body.updatedProfile.name).toEqual(updatedName);
                     expect(res.body.updatedProfile.id).toEqual(id);
                 });
                 test('Update admin profile', async () => {
@@ -359,7 +332,7 @@ describe('test PROFILE endpoints', () => {
                         .send({
                             email: updatedAdminEmail,
                             password: updatedAdminPassword,
-                            username: updatedAdminUsername,
+                            name: updatedAdminName,
                             role: updatedAdminRole,
                             preference: updatedAdminPreference,
                             age: updatedAdminAge,
@@ -381,7 +354,7 @@ describe('test PROFILE endpoints', () => {
                         await comparePasswordWithHash(updatedAdminPassword, res.body.updatedProfile.password)
                     ).toEqual(true);
                     expect(res.body.updatedProfile.role).toEqual(updatedAdminRole);
-                    expect(res.body.updatedProfile.username).toEqual(updatedAdminUsername);
+                    expect(res.body.updatedProfile.name).toEqual(updatedAdminName);
                     expect(res.body.updatedProfile.id).toEqual(adminId);
                 });
             });
@@ -559,7 +532,7 @@ describe('test PROFILE endpoints', () => {
                         true
                     );
                     expect(res.body.deletedProfile.role).toEqual(updatedRole);
-                    expect(res.body.deletedProfile.username).toEqual(updatedUsername);
+                    expect(res.body.deletedProfile.name).toEqual(updatedName);
                     expect(res.body.deletedProfile.id).toEqual(id);
                 });
 
@@ -579,7 +552,7 @@ describe('test PROFILE endpoints', () => {
                         true
                     );
                     expect(res.body.deletedProfile.role).toEqual(thirdUserRole);
-                    expect(res.body.deletedProfile.username).toEqual(thirdUserUsername);
+                    expect(res.body.deletedProfile.name).toEqual(thirdName);
                     expect(res.body.deletedProfile.id).toEqual(thirdId);
                 });
                 test('Delete admin profile', async () => {
@@ -598,7 +571,7 @@ describe('test PROFILE endpoints', () => {
                         await comparePasswordWithHash(updatedAdminPassword, res.body.deletedProfile.password)
                     ).toEqual(true);
                     expect(res.body.deletedProfile.role).toEqual(updatedAdminRole);
-                    expect(res.body.deletedProfile.username).toEqual(updatedAdminUsername);
+                    expect(res.body.deletedProfile.name).toEqual(updatedAdminName);
                     expect(res.body.deletedProfile.id).toEqual(adminId);
                 });
             });

@@ -20,6 +20,7 @@
   "devDependencies": {
     "@testing-library/dom": "^9.3.3",
     "@testing-library/react": "^14.1.0",
+    "@types/bcrypt": "^5.0.2",
     "@types/jest": "^29.5.11",
     "@types/node": "^20",
     "@types/react": "^18",
