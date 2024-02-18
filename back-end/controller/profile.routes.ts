@@ -17,13 +17,25 @@ profileRouter.get('/', async (_req: Request, res: Response, next: NextFunction) 
     }
 });
 
+profileRouter.get('/email/:email', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const email = req.params.email as string;
+        const profile: Profile = await profileService.getProfileByEmail(email);
+
+        res.status(200).json({ status: 'success', message: 'profile found', profile });
+    } catch (error) {
+        next(error);
+    }
+});
+
 profileRouter.get(
     '/preference',
     async (req: Request & { auth: AuthenticationResponse }, res: Response, next: NextFunction) => {
         try {
             const preference = String(req.query.preference);
+            const swiped = req.query.swipedEmails as string[];
             const auth = req.auth;
-            const profiles = await profileService.getAllPossibleMatches(preference as Preference, auth);
+            const profiles = await profileService.getAllPossibleMatches(preference as Preference, swiped, auth);
             res.status(200).json({ status: 'success', message: 'possible matches found', profiles });
         } catch (error) {
             next(error);

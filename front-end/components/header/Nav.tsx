@@ -27,7 +27,7 @@ const Nav: React.FC<Props> = ({ isLoggedIn, gender, preference }: Props) => {
               preference === "OTHER/SECRET") &&
               "💑"}
           </Link>
-          <Link href="/profiles" className={"text-4xl"}>
+          <Link href="/matches" className={"text-4xl"}>
             {preference === "FEMALE" && gender === "WOMAN" && "👩‍🤝‍👩"}
             {preference === "MALE" && gender === "MAN" && "👨‍🤝‍👨"}
             {((preference === "FEMALE" && gender === "MAN") || (preference === "MALE" && gender === "WOMAN")) &&

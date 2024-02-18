@@ -32,7 +32,7 @@ const ProfilesOverviewTable: React.FC<Props> = ({ profiles }: Props) => {
           return (
             <div
               key={index}
-              onClick={() => router.push("/profiles/" + p.id)}
+              onClick={() => router.push("/matches/" + p.id)}
               className="text-md grid grid-cols-4 bg-white bg-opacity-90 pt-1 pb-1 border border-b-1"
             >
               <Image

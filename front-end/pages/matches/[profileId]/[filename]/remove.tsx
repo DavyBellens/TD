@@ -38,7 +38,7 @@ const removePicture: React.FC = () => {
           );
 
           await FileService.deleteFile(filename);
-          router.push("/profiles/" + id + "/addPictures");
+          router.push("/matches/" + id + "/addPictures");
         } catch (error) {
           console.log(error);
         }

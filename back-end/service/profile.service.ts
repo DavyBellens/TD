@@ -9,7 +9,7 @@ import { comparePasswordWithHash, hashPassword } from '../util/password';
 const createProfile = async (profileInput: ProfileInput): Promise<Profile> => {
     const { email, name, password, role, preference, age, gender, interests, socials, pictures, bio } = profileInput;
 
-    Profile.validate(email, name, password, role, preference, age, gender, interests, socials, pictures, bio);
+    Profile.validate(email, name, password, role, preference, age, gender, interests, socials, pictures, [], bio);
 
     if (await profileDb.getProfileByEmail(email)) throw new Error(`Email already exists`);
 
@@ -107,6 +107,11 @@ const updateSocials = async (profile: Profile, socials: string[]): Promise<Profi
     return await profileDb.updateSocials(profile.id, socials);
 };
 
+const updateSwipedEmails = async (profile: Profile, swipedEmails: string[]): Promise<Profile> => {
+    Profile.validateSwipedRightEmails(swipedEmails);
+    return await profileDb.updateSwipedEmails(profile.id, swipedEmails);
+};
+
 const updateProfile = async (
     inputProfileId: string | number,
     profileInput: ProfileInput,
@@ -120,7 +125,20 @@ const updateProfile = async (
     }
 
     const profile = await getProfileById(profileId);
-    const { email, password, name, role, preference, age, gender, interests, socials, pictures, bio } = profileInput;
+    const {
+        email,
+        password,
+        name,
+        role,
+        preference,
+        age,
+        gender,
+        interests,
+        socials,
+        pictures,
+        swipedRightEmails,
+        bio,
+    } = profileInput;
 
     if (email) {
         const p = await profileDb.getProfileByEmail(email);
@@ -168,6 +186,9 @@ const updateProfile = async (
     if (socials) {
         result = await updateSocials(profile, socials);
     }
+    if (swipedRightEmails) {
+        result = await updateSwipedEmails(profile, swipedRightEmails);
+    }
 
     return result;
 };
@@ -205,20 +226,24 @@ const authenticate = async (email: string, password: string): Promise<Authentica
     };
 };
 
-const getAllPossibleMatches = async (preference: Preference, auth: any) => {
+const getAllPossibleMatches = async (preference: Preference, swiped: string[], auth: any) => {
     if (!Object.values(Preference).includes(preference)) throw new Error('Invalid preference');
     const email: string = auth.email;
     if (preference === 'FEMALE') {
-        return (await profileDb.getAllProfilesByGender('WOMAN')).filter((p) => p.email != email);
+        return (await profileDb.getAllProfilesByGender('WOMAN')).filter(
+            (p) => p.email != email && !swiped.includes(p.email)
+        );
     } else if (preference === 'MALE') {
-        return (await profileDb.getAllProfilesByGender('MAN')).filter((p) => p.email != email);
+        return (await profileDb.getAllProfilesByGender('MAN')).filter(
+            (p) => p.email != email && !swiped.includes(p.email)
+        );
     } else if (preference === 'BOTH') {
         return [
             ...(await profileDb.getAllProfilesByGender('MAN')),
             ...(await profileDb.getAllProfilesByGender('WOMAN')),
-        ].filter((p) => p.email != email);
+        ].filter((p) => p.email != email && !swiped.includes(p.email));
     } else if (preference === 'OTHER') {
-        return (await profileDb.getAllProfiles()).filter((p) => p.email != email);
+        return (await profileDb.getAllProfiles()).filter((p) => p.email != email && !swiped.includes(p.email));
     }
 };
 

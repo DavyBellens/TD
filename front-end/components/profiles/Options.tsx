@@ -33,7 +33,7 @@ const OptionsComponent: React.FC<Props> = ({ profile }: Props) => {
           </button>
           <button
             className={basic + " text-black w-10/12"}
-            onClick={() => router.push("/profiles/" + profile.id + "/addPictures")}
+            onClick={() => router.push("/matches/" + profile.id + "/addPictures")}
           >
             <span className="text-3xl">📸</span>
 
@@ -44,7 +44,7 @@ const OptionsComponent: React.FC<Props> = ({ profile }: Props) => {
             <span className="col-span-3">Logout</span>
           </button>
           <button
-            onClick={() => router.push("/profiles/delete/" + profile.id)}
+            onClick={() => router.push("/matches/delete/" + profile.id)}
             className={basic + " text-lg p-3 w-10/12 text-red-700"}
           >
             <span className="text-3xl flex items-center">🗑️</span>

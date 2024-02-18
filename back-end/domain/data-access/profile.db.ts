@@ -86,7 +86,7 @@ const updateBio = async (id: number, newBio: string): Promise<Profile> => {
             where: { id },
             data: { bio: newBio },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile bio. See server log for details.');
@@ -99,7 +99,7 @@ const updateEmail = async (id: number, newEmail: string): Promise<Profile> => {
             where: { id },
             data: { email: newEmail },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile email. See server log for details.');
@@ -112,7 +112,7 @@ const updatePassword = async (id: number, newPassword: string): Promise<Profile>
             where: { id },
             data: { password: newPassword },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile password. See server log for details.');
@@ -125,7 +125,7 @@ const updateName = async (id: number, newName: string): Promise<Profile> => {
             where: { id },
             data: { name: newName },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile Name. See server log for details.');
@@ -138,7 +138,7 @@ const updateRole = async (id: number, newRole: Role): Promise<Profile> => {
             where: { id },
             data: { role: newRole },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile role. See server log for details.');
@@ -151,7 +151,7 @@ const updatePictures = async (id: number, newPictures: string[]): Promise<Profil
             where: { id },
             data: { pictures: newPictures },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile role. See server log for details.');
@@ -164,7 +164,7 @@ const updatePreference = async (id: number, newPreference: Preference) => {
             where: { id },
             data: { preference: newPreference },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile preference. See server log for details.');
@@ -177,7 +177,7 @@ const updateAge = async (id: number, newAge: number) => {
             where: { id },
             data: { age: newAge },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile age. See server log for details.');
@@ -190,7 +190,7 @@ const updateGender = async (id: number, newGender: Gender) => {
             where: { id },
             data: { gender: newGender },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile gender. See server log for details.');
@@ -203,7 +203,7 @@ const updateInterests = async (id: number, newInterests: string[]) => {
             where: { id },
             data: { interests: newInterests },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile interests. See server log for details.');
@@ -216,7 +216,7 @@ const updateSocials = async (id: number, newSocials: string[]) => {
             where: { id },
             data: { socials: newSocials },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile socials. See server log for details.');
@@ -228,7 +228,7 @@ const updateSwiped = async (id: number, newSwiped: string[]) => {
             where: { id },
             data: { swipedRightEmails: newSwiped },
         });
-        return Profile.from(updatedProfile);
+        return updatedProfile ? Profile.from(updatedProfile) : null;
     } catch (error) {
         console.error(error);
         throw new Error('Database error when updating profile swiped emails. See server log for details.');
@@ -259,6 +259,19 @@ const getAllProfilesByGender = async (gender: Gender) => {
     }
 };
 
+const updateSwipedEmails = async (id: number, emails: string[]) => {
+    try {
+        const profilePrisma = await database.profile.update({
+            where: { id },
+            data: { swipedRightEmails: emails },
+        });
+        return profilePrisma ? Profile.from(profilePrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error when updatings swiped emails. See server log for details.');
+    }
+};
+
 export default {
     getAllProfilesByGender,
     createProfile,
@@ -277,5 +290,6 @@ export default {
     updateInterests,
     updateSocials,
     updateSwiped,
+    updateSwipedEmails,
     deleteProfile,
 };

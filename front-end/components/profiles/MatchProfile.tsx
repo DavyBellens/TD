@@ -29,17 +29,17 @@ const MatchProfile: React.FC<Props> = ({ profile, images }: Props) => {
   }, [images]);
 
   return profile ? (
-    <div className="flex items-center flex-col w-10/12 ">
+    <div className="flex items-center flex-col w-10/12 justify-center">
       {selectedImage && (
         <div>
           <div className="flex justify-center relative">
             <div className="absolute left-0 top-0 w-1/2 h-full" onClick={() => changeImage(-1)}></div>
             <div className="image-container bg-transparent m-auto flex items-center align-middle">
-              <Image src={selectedImage} alt={"picture of profile " + profile.name} className="bg-black" />
+              <Image src={selectedImage} alt={"picture of profile " + profile.name} className="bg-black " width={350} />
             </div>
             <div className="absolute right-0 top-0 w-1/2 h-full" onClick={() => changeImage(1)}></div>
           </div>
-          <div className={"bg-white text-black p-1 text-xl"}>
+          <div className={"bg-white text-black p-1 text-xl mt-5"}>
             <p>{profile.name}</p>
             <small>
               -{profile.age} {(profile.gender === "MAN" || profile.gender === "WOMAN") && profile.gender}

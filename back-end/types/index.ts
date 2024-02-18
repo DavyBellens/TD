@@ -14,7 +14,7 @@ type ProfileInput = {
     socials?: string[];
     pictures?: string[];
     bio?: string;
-    swiped: ProfileInput[];
+    swipedRightEmails?: string[];
     matches?: Match[];
 };
 
