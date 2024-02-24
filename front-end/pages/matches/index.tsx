@@ -54,7 +54,13 @@ const Profiles: React.FC = () => {
       {isLoading && <div>Loading...</div>}
       {profile ? (
         data ? (
-          <ProfilesOverviewTable profiles={data} />
+          data.length > 0 ? (
+            <ProfilesOverviewTable profiles={data} />
+          ) : (
+            <div className="flex flex-col items-center">
+              <p className="p-5 text-center">You don't have any matches yet</p>
+            </div>
+          )
         ) : (
           <div>Loading...</div>
         )

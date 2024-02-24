@@ -57,7 +57,7 @@ const createProfile = async (
       password: profileInformation.password,
       role: profileInformation.role,
       name: profileInformation.name,
-      age: profileInformation.age,
+      age: parseInt(String(profileInformation.age)),
       interests: profileInformation.interests,
       bio: profileInformation.bio,
       gender,
