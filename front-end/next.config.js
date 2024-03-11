@@ -1,4 +1,5 @@
 module.exports = {
+  output: "standalone",
   webpack: (config) => {
     // Exclude PDF files from being processed
     config.module.rules.push({
