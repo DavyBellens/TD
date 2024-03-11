@@ -119,16 +119,6 @@ const PersonalInformationForm: React.FC<Props> = ({ callBack, nextStage, setStat
     nextStage();
   };
 
-  const fillDefault = (e: FormEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setEmail("Test1@2.3");
-    setName("Test123!!!");
-    setPassword("Test123!!!");
-    setAge(18);
-    setBio("Test123!!!");
-  };
-
   const btns = "bg-white bg-opacity-80 rounded-lg text-black p-2 pl-4 pr-4 ";
   const labelStyle = "text-md mt-3";
   const input = "bg-white bg-opacity-60 text-black p-1 rounded-lg";
@@ -137,9 +127,6 @@ const PersonalInformationForm: React.FC<Props> = ({ callBack, nextStage, setStat
       <form className="flex flex-col justify-center items-center mt-5" onSubmit={(e) => handleSubmit(e)}>
         <h1 className="text-xl m-5 text-center">
           <strong>Personal Information</strong>
-          <button className="bg-white bg-opacity-40 p-1 rounded-lg" onClick={(e) => fillDefault(e)}>
-            fill default
-          </button>
         </h1>
         <InputField
           field="First Name"
