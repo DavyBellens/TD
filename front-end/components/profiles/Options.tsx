@@ -27,7 +27,7 @@ const OptionsComponent: React.FC<Props> = ({ profile }: Props) => {
       {profile ? (
         <>
           {/* <button className={basic + " text-black w-10/12"}>
-            <span className="text-3xl">✏️</span>
+            <span className="text-3xl text-center">✏️</span>
 
             <span className="col-span-3">Edit Details</span>
           </button> */}
@@ -35,19 +35,19 @@ const OptionsComponent: React.FC<Props> = ({ profile }: Props) => {
             className={basic + " text-black w-10/12"}
             onClick={() => router.push("/matches/" + profile.id + "/addPictures")}
           >
-            <span className="text-3xl">📸</span>
+            <span className="text-3xl text-center">📸</span>
 
             <span className="col-span-3">Edit Pictures</span>
           </button>
           <button onClick={logoutUser} className={basic + " text-black w-10/12"}>
-            <span className="text-3xl">🚪</span>
+            <span className="text-3xl text-center">🚪</span>
             <span className="col-span-3">Logout</span>
           </button>
           <button
             onClick={() => router.push("/matches/delete/" + profile.id)}
             className={basic + " text-lg p-3 w-10/12 text-red-700"}
           >
-            <span className="text-3xl flex items-center">🗑️</span>
+            <span className="text-3xl text-center">🗑️</span>
             <span className="col-span-3">Remove account</span>
           </button>
         </>
