@@ -50,8 +50,13 @@ const removePicture: React.FC = () => {
   const getImage = async () => {
     if (filename) {
       try {
-        const i = await import("../../../../../back-end/uploads/" + filename);
-        setImage(i);
+        const imageObject = await FileService.getFile(filename);
+        if (!imageObject) {
+          throw new Error("Something went wrong during import");
+        } else {
+          const i = URL.createObjectURL(imageObject);
+          setImage(i);
+        }
       } catch (error) {
         console.log(error);
         setImage(null);

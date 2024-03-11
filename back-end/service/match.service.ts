@@ -20,6 +20,10 @@ const getMatchById = async (id: number, auth: AuthenticatedToken): Promise<Match
     return match;
 };
 
+const deleteMatch = async (id: number, auth: AuthenticatedToken) => {
+    await matchDb.deleteMatchById(id);
+};
+
 const match = async (profileId1: number, profileId2: number, cupid: AuthenticatedToken): Promise<Match> => {
     if (parseInt(cupid.id) != profileId1 && cupid.role !== 'ADMIN')
         throw new Error('Fuck you tryna be cupid or sumthin?');
@@ -59,4 +63,5 @@ export default {
     match,
     unmatch,
     getAllMatchesFromProfile,
+    deleteMatch,
 };

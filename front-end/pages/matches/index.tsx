@@ -11,37 +11,35 @@ import useInterval from "use-interval";
 
 const Profiles: React.FC = () => {
   const [profile, setProfile] = useState<BackendProfile | undefined>();
-  const getMatches = async () => {
-    if (profile) {
-      const matches = await MatchService.getMatchesByProfile(profile.id);
-      const matchObjects = await matches.json();
-      if (matchObjects) {
-        const profiles = await Promise.all(
-          matchObjects.matches.map(async (e: any) => {
-            const p = await ProfileService.getProfileById(e.profileId1 == profile.id ? e.profileId2 : e.profileId1);
-            return p.profile;
-          })
-        );
-        if (profiles) return profiles;
+  const getMatches = async (profile: BackendProfile) => {
+    const matches = await MatchService.getMatchesByProfile(profile.id);
+    const matchObjects = await matches.json();
+    if (matchObjects) {
+      const profiles = await Promise.all(
+        matchObjects.matches.map(async (e: any) => {
+          const p = await ProfileService.getProfileById(e.profileId1 == profile.id ? e.profileId2 : e.profileId1);
+          return p.profile;
+        })
+      );
+      if (profiles) return profiles;
+    }
+  };
+  const { data, isLoading, error } = useSWR(profile, (p: any) => getMatches(p));
+  useInterval(() => {
+    if (profile) mutate("matches", getMatches(profile));
+  }, 2000);
+  const getProfile = async () => {
+    const user = sessionStorage.getItem("loggedInUser");
+    if (user) {
+      const p = JSON.parse(user);
+      const res = await ProfileService.getProfileById(p.id);
+      if (res) {
+        setProfile(res.profile);
+        mutate("matches", getMatches(res.profile));
       }
     }
   };
-  const { data, isLoading, error } = useSWR("matches", getMatches);
-  useInterval(() => {
-    mutate("matches", getMatches());
-  }, 2000);
   useEffect(() => {
-    const getProfile = async () => {
-      const user = sessionStorage.getItem("loggedInUser");
-      if (user) {
-        const p = JSON.parse(user);
-        const res = await ProfileService.getProfileById(p.id);
-        if (res) {
-          setProfile(res.profile);
-          mutate("matches", getMatches());
-        }
-      }
-    };
     getProfile();
   }, []);
   return (
@@ -51,8 +49,9 @@ const Profiles: React.FC = () => {
       </Head>
       <Header isLoggedIn={!!profile} gender={profile && profile.gender} preference={profile && profile.preference} />
       {error && <div>{error}</div>}
-      {isLoading && <div>Loading...</div>}
-      {profile ? (
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : profile ? (
         data ? (
           data.length > 0 ? (
             <ProfilesOverviewTable profiles={data} />
@@ -62,7 +61,9 @@ const Profiles: React.FC = () => {
             </div>
           )
         ) : (
-          <div>Loading...</div>
+          <div>
+            <p>Loading...</p>
+          </div>
         )
       ) : (
         <div className="flex flex-col items-center">

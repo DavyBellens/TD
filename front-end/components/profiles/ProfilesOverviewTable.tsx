@@ -12,11 +12,14 @@ const ProfilesOverviewTable: React.FC<Props> = ({ profiles }: Props) => {
 
   const getImages = async (profiles: any[]) => {
     const images = await Promise.all(
-      profiles.map(async (p) =>
-        p.pictures.length > 0
-          ? await import("../../../back-end/uploads/" + p.pictures[0])
-          : await import("../../public/images/default-profilePicture.jpg")
-      )
+      profiles.map(async (p) => {
+        if (p.pictures.length > 0) {
+          const i = await FileService.getFile(p.pictures[0]);
+          if (i) return URL.createObjectURL(i);
+        } else {
+          await import("../../public/images/default-profilePicture.jpg");
+        }
+      })
     );
     setImages(images);
   };

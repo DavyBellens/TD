@@ -126,7 +126,6 @@ const PersonalInformationForm: React.FC<Props> = ({ callBack, nextStage, setStat
     setName("Test123!!!");
     setPassword("Test123!!!");
     setAge(18);
-    setInterests(["Test123!!!"]);
     setBio("Test123!!!");
   };
 

@@ -81,7 +81,7 @@ const ProfileInfo: React.FC<Props> = ({ profile }: Props) => {
         </p>
       </div>
       <h2 className="text-lg">
-        <strong>Sex stuff</strong>
+        <strong>Sexuality</strong>
       </h2>
       <div className="bg-white bg-opacity-75 text-black w-full rounded-md p-1">
         <p>

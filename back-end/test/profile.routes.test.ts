@@ -93,7 +93,7 @@ describe('test PROFILE endpoints', () => {
                     // then
                     expect(res.status).toEqual(200);
                     expect(res.body.status).toEqual('success');
-                    expect(res.body.message).toEqual('profile created');
+                    expect(res.body.message).toEqual('Profile created, redirecting...');
                     expect(res.body.profile.email).toEqual(email);
                     expect(await comparePasswordWithHash(password, res.body.profile.password)).toEqual(true);
                     expect(res.body.profile.name).toEqual(name);
@@ -131,7 +131,7 @@ describe('test PROFILE endpoints', () => {
                     // then
                     expect(res.status).toEqual(200);
                     expect(res.body.status).toEqual('success');
-                    expect(res.body.message).toEqual('profile created');
+                    expect(res.body.message).toEqual('Profile created, redirecting...');
                     expect(res.body.profile.email).toEqual(thirdUserEmail);
                     expect(await comparePasswordWithHash(thirdUserPassword, res.body.profile.password)).toEqual(true);
                     expect(res.body.profile.name).toEqual(thirdName);
@@ -169,7 +169,7 @@ describe('test PROFILE endpoints', () => {
                     // then
                     expect(res.status).toEqual(200);
                     expect(res.body.status).toEqual('success');
-                    expect(res.body.message).toEqual('profile created');
+                    expect(res.body.message).toEqual('Profile created, redirecting...');
                     expect(res.body.profile.email).toEqual(adminEmail);
                     expect(await comparePasswordWithHash(adminPassword, res.body.profile.password)).toEqual(true);
                     expect(res.body.profile.name).toEqual(adminName);
@@ -313,7 +313,7 @@ describe('test PROFILE endpoints', () => {
                     //then
                     expect(res.status).toEqual(200);
                     expect(res.body.status).toEqual('success');
-                    expect(res.body.message).toEqual('profile updated');
+                    expect(res.body.message).toEqual('Profile created, redirecting...');
                     expect(res.body.updatedProfile.bio).toEqual(updatedBio);
                     expect(res.body.updatedProfile.pictures).toEqual([updatedPicture]);
                     expect(res.body.updatedProfile.email).toEqual(updatedEmail);
@@ -346,7 +346,7 @@ describe('test PROFILE endpoints', () => {
                     // then
                     expect(res.status).toEqual(200);
                     expect(res.body.status).toEqual('success');
-                    expect(res.body.message).toEqual('profile updated');
+                    expect(res.body.message).toEqual('Profile created, redirecting...');
                     expect(res.body.updatedProfile.bio).toEqual(updatedAdminBio);
                     expect(res.body.updatedProfile.pictures).toEqual([updatedAdminPicture]);
                     expect(res.body.updatedProfile.email).toEqual(updatedAdminEmail);

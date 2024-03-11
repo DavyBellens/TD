@@ -1,5 +1,5 @@
 import FileService from "@/services/FileService";
-import { getToken } from "@/util/token";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -13,8 +13,6 @@ const ImageUpload: React.FC<Props> = ({ callBack }: Props) => {
   const [file, setFile] = useState<any>(null);
   const [filename, setFilename] = useState<string>("");
   const [fileUploaded, setFileUploaded] = useState<boolean>(false);
-  const uploaded = "bg-lime-500 bg-opacity-80";
-  const notUploaded = "bg-white bg-opacity-40";
   const router = useRouter();
 
   const uploadPicture = async () => {
@@ -63,31 +61,27 @@ const ImageUpload: React.FC<Props> = ({ callBack }: Props) => {
           className="hidden"
           onChange={handleImageChange}
         />
-        <label htmlFor="imageInput">
+        <label htmlFor="imageInput" className="flex items-center">
           {image ? (
             <img src={image} alt="Uploaded Image" className="w-32 h-full rounded-lg" />
           ) : (
-            <div className="w-32 h-full rounded-lg border-2 border-gray-300 flex items-center justify-center m-5">
-              <span className="text-gray-500">Click to add picture</span>
+            <div className="h-full rounded-lg border-2 border-gray-300 flex items-center justify-center m-1 p-1">
+              <span className="text-white">Click to add picture</span>
             </div>
           )}
-        </label>
-        <div className={"flex w-32 " + (fileUploaded ? "justify-between" : "justify-center")}>
-          <button
-            onClick={uploadPicture}
-            className={(fileUploaded ? uploaded : notUploaded) + " text-white  rounded-lg p-1 mt-1"}
-          >
-            {fileUploaded ? "Uploaded succesfully" : "Upload"}
-          </button>
-          {fileUploaded && (
+          {!fileUploaded ? (
+            <button onClick={uploadPicture} className="bg-white bg-opacity-40 h-max  text-white  rounded-lg m-1 p-1">
+              Upload
+            </button>
+          ) : (
             <button
-              className={" bg-red-600 mt-1 p-1 rounded-lg"}
+              className={" bg-red-600 m-1 p-1 rounded-lg"}
               onClick={() => router.push(router.asPath + "/../" + filename + "/remove")}
             >
-              X
+              Remove
             </button>
           )}
-        </div>
+        </label>
       </div>
       {imageError && <div className="m-3">{imageError}</div>}
     </>

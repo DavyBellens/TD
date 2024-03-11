@@ -1,6 +1,7 @@
-import { Gender, Preference } from "@/types";
+import { BackendProfile, Gender, Preference } from "@/types";
 import { getAll } from "../util/get";
 import { getToken } from "../util/token";
+import FileService from "./FileService";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL + "/profiles";
 const type = "profiles";
@@ -23,6 +24,9 @@ const getProfileById = async (profileId: string) => {
 
 const deleteProfileById = async (profileId: number): Promise<Boolean> => {
   const token = getToken();
+  const profileResult = await getProfileById(profileId as unknown as string);
+  const profile: BackendProfile = profileResult.profile;
+  profile.pictures.forEach(async (p) => await FileService.deleteFile(p));
   const res = await fetch(baseUrl + `/${profileId}`, {
     method: "DELETE",
     headers: {

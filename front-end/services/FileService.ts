@@ -12,7 +12,9 @@ const getFile = async (fileName: string) => {
       },
     });
     return res.blob();
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const uploadFile = async (file: FormData) => {

@@ -2,6 +2,7 @@ import ImageUpload from "@/components/profiles/pictures/ImageUpload";
 import ProfileService from "@/services/ProfileService";
 import { Profile } from "@/types";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 type Props = {
@@ -21,7 +22,8 @@ const ProfileAddPictureComponent: React.FC<Props> = ({ profile, id, images }: Pr
         profileObject.profile.gender,
         profileObject.profile.preference,
         pictures,
-        profileObject.profile.socials
+        profileObject.profile.socials,
+        profileObject.profile.swipedRightEmails
       );
     }
     router.reload();
@@ -38,7 +40,6 @@ const ProfileAddPictureComponent: React.FC<Props> = ({ profile, id, images }: Pr
       updateProfile(profilePictures);
     }
   };
-
   return (
     <>
       {profile && images && (
@@ -53,7 +54,7 @@ const ProfileAddPictureComponent: React.FC<Props> = ({ profile, id, images }: Pr
                 return (
                   <li
                     key={index}
-                    className="m-auto justify-center bg-black h-full flex items-center"
+                    className="m-auto rounded-lg justify-center bg-black h-full flex items-center"
                     onClick={() =>
                       profile.pictures && router.push(router.asPath + "/../" + profile.pictures[index] + "/remove")
                     }
@@ -61,9 +62,10 @@ const ProfileAddPictureComponent: React.FC<Props> = ({ profile, id, images }: Pr
                     <Image
                       src={i}
                       alt={"Profile picture with name " + profile.pictures[index]}
-                      width={75}
-                      height={100}
+                      width={100}
+                      height={125}
                       loading="lazy"
+                      className="rounded-lg"
                     />
                   </li>
                 );
@@ -83,16 +85,6 @@ const ProfileAddPictureComponent: React.FC<Props> = ({ profile, id, images }: Pr
               }}
             />
           )}
-          <div className="flex justify-center">
-            {images.length > 0 && (
-              <button
-                className="bg-white opacity-70 font-bold text-black w-auto p-1 m-5 rounded-lg"
-                onClick={() => router.push("/")}
-              >
-                Start swiping
-              </button>
-            )}
-          </div>
         </>
       )}
     </>

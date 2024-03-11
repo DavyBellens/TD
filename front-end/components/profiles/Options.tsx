@@ -23,14 +23,14 @@ const OptionsComponent: React.FC<Props> = ({ profile }: Props) => {
   };
   const basic = "grid grid-cols-4 bg-white bg-opacity-75 rounded-lg font-bold text-center text-xl mt-5 p-5";
   return (
-    <div className="app flex flex-col items-center w-screen">
+    <div className="flex flex-col items-center w-screen">
       {profile ? (
         <>
-          <button className={basic + " text-black w-10/12"}>
+          {/* <button className={basic + " text-black w-10/12"}>
             <span className="text-3xl">✏️</span>
 
             <span className="col-span-3">Edit Details</span>
-          </button>
+          </button> */}
           <button
             className={basic + " text-black w-10/12"}
             onClick={() => router.push("/matches/" + profile.id + "/addPictures")}
@@ -48,16 +48,12 @@ const OptionsComponent: React.FC<Props> = ({ profile }: Props) => {
             className={basic + " text-lg p-3 w-10/12 text-red-700"}
           >
             <span className="text-3xl flex items-center">🗑️</span>
-            <span className="col-span-3">
-              Remove account <br />
-              <small>(permanent)</small>
-            </span>
+            <span className="col-span-3">Remove account</span>
           </button>
         </>
       ) : (
         <AuthError />
       )}
-      <Footer />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { Profile } from '../domain/model/profile';
 import { AuthenticationResponse, ProfileInput, Role } from '../types';
 import { generateJwtToken } from '../util/jwt';
 import { comparePasswordWithHash, hashPassword } from '../util/password';
+import matchService from './match.service';
 
 const createProfile = async (profileInput: ProfileInput): Promise<Profile> => {
     const { email, name, password, role, preference, age, gender, interests, socials, pictures, bio } = profileInput;
@@ -200,19 +201,18 @@ const deleteProfile = async (inputProfileId: string | number, auth: any): Promis
     if (realProfileId !== profileId && role != 'ADMIN') {
         throw new Error('Wtf are you trying to do? No present from santa this year!!!');
     }
-
     await getProfileById(profileId);
-
+    const matches = await matchService.getAllMatchesFromProfile(profileId as unknown as string, auth);
+    matches.forEach(async (m) => {
+        await matchService.deleteMatch(m.id, auth);
+    });
     return await profileDb.deleteProfile(profileId);
 };
 
 const authenticate = async (email: string, password: string): Promise<AuthenticationResponse> => {
     const profile = await getProfileByEmail(email);
-
     const isValidPassword = await comparePasswordWithHash(password, profile.password);
-
     if (!isValidPassword) throw new Error('Invalid password');
-
     return {
         token: {
             value: generateJwtToken({ email, role: profile.role, id: profile.id }),

@@ -1,6 +1,7 @@
 import Back from "@/components/Back";
 import Footer from "@/components/Footer";
 import ProfileId from "@/components/profiles/ProfileId";
+import FileService from "@/services/FileService";
 import ProfileService from "@/services/ProfileService";
 import { Profile } from "@/types";
 import Head from "next/head";
@@ -16,8 +17,11 @@ const ProfileIdPage: React.FC = () => {
 
   const getImage = async (profile: Profile) => {
     if (profile) {
-      const image = await import("../../../../back-end/uploads/" + profile.pictures[0]);
-      setImage(image);
+      const imageObject = await FileService.getFile(profile.pictures[0]);
+      if (imageObject) {
+        const image = URL.createObjectURL(imageObject);
+        setImage(image);
+      }
     }
   };
 

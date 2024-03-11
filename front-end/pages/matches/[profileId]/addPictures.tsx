@@ -11,6 +11,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import useInterval from "use-interval";
+import FileService from "@/services/FileService";
+import Link from "next/link";
+import Back from "@/components/Back";
 
 const ProfileAddPicturePage: React.FC = () => {
   const router = useRouter();
@@ -24,7 +27,10 @@ const ProfileAddPicturePage: React.FC = () => {
       if (result) {
         if (result.profile) {
           const imgs = await Promise.all(
-            result.profile.pictures.map(async (p: string) => await import("../../../../back-end/uploads/" + p))
+            result.profile.pictures.map(async (p: string) => {
+              const imageObject = await FileService.getFile(p);
+              if (imageObject) return URL.createObjectURL(imageObject);
+            })
           );
           setImages(imgs);
           return result.profile;
@@ -45,8 +51,9 @@ const ProfileAddPicturePage: React.FC = () => {
     mutate("profile", getProfile());
   }, 5000);
 
+  const btnStyle = "bg-white bg-opacity-40 m-5 p-2 rounded-lg mb-0 font-bold text-center ";
   return (
-    <>
+    <div className="app items-center">
       <Head>
         <title>Add pictures</title>
       </Head>
@@ -61,8 +68,18 @@ const ProfileAddPicturePage: React.FC = () => {
       ) : (
         <AuthError />
       )}
+      <div className="flex justify-center mt-10">
+        <Link className={btnStyle} href={"/options"}>
+          Go Back
+        </Link>
+        {images.length > 0 && (
+          <button className={btnStyle} onClick={() => router.push("/")}>
+            Start swiping
+          </button>
+        )}
+      </div>
       <Footer />
-    </>
+    </div>
   );
 };
 export default ProfileAddPicturePage;

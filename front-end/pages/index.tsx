@@ -2,6 +2,7 @@ import AuthError from "@/components/authorization/AuthError";
 import Footer from "@/components/Footer";
 import Header from "@/components/header/Header";
 import MatchProfile from "@/components/profiles/MatchProfile";
+import FileService from "@/services/FileService";
 import MatchService from "@/services/MatchService";
 import ProfileService from "@/services/ProfileService";
 import { BackendProfile } from "@/types";
@@ -38,15 +39,19 @@ const Home: React.FC = () => {
           setMatch(matchProfile);
         }
       }
-      await ProfileService.updateProfile(
-        profile.id,
-        {},
-        profile.gender,
-        profile.preference,
-        profile.pictures,
-        profile.socials,
-        [...profile.swipedRightEmails, matchProfile.email]
-      );
+      const newSwiped = profile.swipedRightEmails;
+      if (!newSwiped.includes(matchProfile.email)) newSwiped.push(matchProfile.email);
+      if (matchProfile) {
+        await ProfileService.updateProfile(
+          profile.id,
+          {},
+          profile.gender,
+          profile.preference,
+          profile.pictures,
+          profile.socials,
+          newSwiped
+        );
+      }
       if (possibleMatches) {
         setPossibleMatches(possibleMatches.filter((p) => p.email != possibleMatches[0].email));
       }
@@ -55,26 +60,39 @@ const Home: React.FC = () => {
 
   const getPictures = async (profile: BackendProfile) => {
     if (profile.pictures.length > 0) {
-      const pictures = await Promise.all(
-        profile.pictures.map(async (p) => await import("../../back-end/uploads/" + p))
-      );
-      if (pictures) {
-        setImages(pictures);
+      try {
+        const pictures = await Promise.all(
+          profile.pictures.map(async (p) => {
+            const i = await FileService.getFile(p);
+            if (i) return URL.createObjectURL(i);
+          })
+        );
+        if (pictures) {
+          setImages(pictures);
+        }
+      } catch (error) {
+        console.log(error);
+        try {
+        } catch (error) {
+          const pictures = profile.pictures.map(
+            async (_p) => await import("/public/images/default-profilePicture.jpg")
+          );
+          setImages(pictures);
+        }
+      }
+    }
+  };
+  const getPossibleMatches = async () => {
+    if (profile) {
+      const matches = await ProfileService.getAllPossibleMatches(profile.preference, profile.swipedRightEmails);
+      if (matches) {
+        setPossibleMatches(matches.profiles);
+        matches.profiles.forEach(async (p: BackendProfile) => await getPictures(p));
       }
     }
   };
   useEffect(() => {
     getUser();
-
-    const getPossibleMatches = async () => {
-      if (profile) {
-        const matches = await ProfileService.getAllPossibleMatches(profile.preference, profile.swipedRightEmails);
-        if (matches) {
-          setPossibleMatches(matches.profiles);
-          matches.profiles.forEach(async (p: BackendProfile) => await getPictures(p));
-        }
-      }
-    };
     getPossibleMatches();
   }, [profile]);
   const btnStyle = "bg-red-500 w-full m-1 text-white text-center rounded-lg";
@@ -113,22 +131,22 @@ const Home: React.FC = () => {
                 ) : (
                   <ul className="flex w-full items-center mt-10 mb-10 justify-center">
                     {possibleMatches.length > 0 ? (
-                      <li className="flex flex-col items-center">
+                      <li className="flex flex-col items-center justify-evenly">
                         <MatchProfile profile={possibleMatches[0]} images={images} />
                         <div className="flex ">
                           <button
-                            className="m-5 p-2 bg-green-600 text-white "
-                            onClick={() => likeProfile(possibleMatches[0])}
-                          >
-                            Smash
-                          </button>
-                          <button
-                            className="m-5 p-2 bg-red-600 text-white "
+                            className="m-5 p-2 bg-red-600 text-white text-xl w-auto"
                             onClick={() =>
                               setPossibleMatches(possibleMatches.filter((p) => p.email != possibleMatches[0].email))
                             }
                           >
                             Pass
+                          </button>
+                          <button
+                            className="m-5 p-2 bg-green-600 text-white text-xl w-auto"
+                            onClick={() => likeProfile(possibleMatches[0])}
+                          >
+                            Smash
                           </button>
                         </div>
                       </li>
