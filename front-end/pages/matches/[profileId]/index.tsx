@@ -27,6 +27,7 @@ const ProfileIdPage: React.FC = () => {
           }
         })
       );
+      if (images.length < 2) images.push(images[0]);
       setImages(images);
     }
   };
