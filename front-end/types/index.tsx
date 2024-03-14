@@ -28,7 +28,6 @@ export type BackendProfile = {
   gender: Gender;
   socials: string[];
   pictures: string[];
-  swipedRightEmails: string[];
 };
 
 export type PersonalInformation = {

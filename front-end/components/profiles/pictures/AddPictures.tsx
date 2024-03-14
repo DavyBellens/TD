@@ -23,7 +23,6 @@ const ProfileAddPictureComponent: React.FC<Props> = ({ profile, id, images }: Pr
         profileObject.profile.preference,
         pictures,
         profileObject.profile.socials,
-        profileObject.profile.swipedRightEmails
       );
     }
     router.reload();
