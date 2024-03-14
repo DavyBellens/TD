@@ -1,4 +1,3 @@
-import { Match } from '@prisma/client';
 import express, { NextFunction, Request, Response } from 'express';
 import matchService from '../service/match.service';
 import { AuthenticatedToken } from '../types';
@@ -11,24 +10,6 @@ matchRouter.get('/', async (req: Request & { auth: AuthenticatedToken }, res: Re
         const matches = await matchService.getAllMatches(auth);
 
         res.status(200).json({ status: 'success', message: 'all the matches', matches });
-    } catch (error) {
-        next(error);
-    }
-});
-
-matchRouter.post('/match', async (req: Request & { auth: AuthenticatedToken }, res: Response, next: NextFunction) => {
-    try {
-        const id = req.query.profileId1 as string;
-        const id2 = req.query.profileId2 as string;
-        const logged = req.auth;
-
-        const match = await matchService.match(parseInt(id), parseInt(id2), logged);
-
-        res.status(200).json({
-            status: 'success',
-            message: `successfully matched profiles ${id} and ${id2}`,
-            match,
-        });
     } catch (error) {
         next(error);
     }
