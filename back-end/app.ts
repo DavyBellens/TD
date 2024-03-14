@@ -9,6 +9,7 @@ import { authRouter } from './controller/auth.routes';
 import { profileRouter } from './controller/profile.routes';
 import { fileRouter } from './controller/file.routes';
 import { matchRouter } from './controller/match.routes';
+import { swipeRouter } from './controller/swipe.routes';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/', authRouter);
 app.use('/profiles', profileRouter);
 app.use('/files', fileRouter);
 app.use('/matches', matchRouter);
+app.use('/swipes', swipeRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/status', (req, res) => {
