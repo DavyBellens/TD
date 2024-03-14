@@ -5,6 +5,7 @@ import MatchProfile from "@/components/profiles/MatchProfile";
 import FileService from "@/services/FileService";
 import MatchService from "@/services/MatchService";
 import ProfileService from "@/services/ProfileService";
+import SwipeService from "@/services/SwipeService";
 import { BackendProfile } from "@/types";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
@@ -33,25 +34,8 @@ const Home: React.FC = () => {
 
   const likeProfile = async (matchProfile: BackendProfile) => {
     if (profile) {
-      if (matchProfile.swipedRightEmails.includes(profile.email)) {
-        const match = await MatchService.match(parseInt(profile.id), parseInt(matchProfile.id));
-        if (match) {
-          setMatch(matchProfile);
-        }
-      }
-      const newSwiped = profile.swipedRightEmails;
-      if (!newSwiped.includes(matchProfile.email)) newSwiped.push(matchProfile.email);
-      if (matchProfile) {
-        await ProfileService.updateProfile(
-          profile.id,
-          {},
-          profile.gender,
-          profile.preference,
-          profile.pictures,
-          profile.socials,
-          newSwiped
-        );
-      }
+      const swipe = await SwipeService.swipe(matchProfile.id as unknown as number, "R");
+      if (swipe.message === "match") setMatch(matchProfile);
       if (possibleMatches) {
         setPossibleMatches(possibleMatches.filter((p) => p.email != possibleMatches[0].email));
       }
@@ -84,7 +68,7 @@ const Home: React.FC = () => {
   };
   const getPossibleMatches = async () => {
     if (profile) {
-      const matches = await ProfileService.getAllPossibleMatches(profile.preference, profile.swipedRightEmails);
+      const matches = await ProfileService.getAllPossibleMatches(profile.preference);
       if (matches) {
         setPossibleMatches(matches.profiles);
         matches.profiles.forEach(async (p: BackendProfile) => await getPictures(p));

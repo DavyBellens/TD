@@ -86,8 +86,7 @@ const updateProfile = async (
   gender?: Gender,
   preference?: Preference,
   pictures?: string[],
-  socials?: string[],
-  swipedEmails?: string[]
+  socials?: string[]
 ) => {
   const token = getToken();
   const res = await fetch(baseUrl + "/" + id, {
@@ -107,7 +106,6 @@ const updateProfile = async (
       preference: preference === "OTHER/SECRET" ? "OTHER" : preference,
       socials,
       pictures: pictures ? pictures : ["default-profilePicture.jpg"],
-      swipedRightEmails: swipedEmails ? swipedEmails : [],
     }),
   });
   return await res.json();
@@ -163,9 +161,9 @@ const emailExists = async (email: string) => {
   return await res.json();
 };
 
-const getAllPossibleMatches = async (preference: Preference, swiped: string[]) => {
+const getAllPossibleMatches = async (preference: Preference) => {
   const token = getToken();
-  const res = await fetch(baseUrl + "/preference?preference=" + preference + "&swipedEmails=" + swiped, {
+  const res = await fetch(baseUrl + "/preference?preference=" + preference, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

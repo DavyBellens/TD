@@ -15,7 +15,6 @@ export class Profile {
     readonly interests: string[];
     readonly socials: string[];
     readonly pictures: string[];
-    readonly swipedRightEmails: string[];
     readonly bio?: string;
 
     constructor(profile: {
@@ -32,7 +31,6 @@ export class Profile {
         interests: string[];
         socials: string[];
         pictures: string[];
-        swipedRightEmails: string[];
         bio?: string;
     }) {
         Profile.validate(
@@ -46,7 +44,6 @@ export class Profile {
             profile.interests,
             profile.socials,
             profile.pictures,
-            profile.swipedRightEmails,
             profile.bio
         );
         this.id = profile.id;
@@ -62,7 +59,6 @@ export class Profile {
         this.interests = profile.interests;
         this.socials = profile.socials;
         this.pictures = profile.pictures;
-        this.swipedRightEmails = profile.swipedRightEmails;
         this.bio = profile.bio;
     }
 
@@ -77,7 +73,6 @@ export class Profile {
         interests: string[];
         socials: string[];
         pictures: string[];
-        swipedRightEmails: string[];
         bio?: string;
     }): boolean {
         return (
@@ -91,7 +86,6 @@ export class Profile {
             this.interests === otherProfile.interests &&
             this.socials === otherProfile.socials &&
             this.pictures === otherProfile.pictures &&
-            this.swipedRightEmails === otherProfile.swipedRightEmails &&
             this.bio === otherProfile.bio
         );
     }
@@ -107,7 +101,6 @@ export class Profile {
         interests: string[],
         socials: string[],
         pictures: string[],
-        swipedRightEmails: string[],
         bio?: string
     ): void {
         Profile.validateEmail(email);
@@ -120,7 +113,6 @@ export class Profile {
         Profile.validateInterests(interests);
         Profile.validateSocials(socials);
         Profile.validatePictures(pictures);
-        Profile.validateSwipedRightEmails(swipedRightEmails);
         Profile.validateBio(bio);
     }
 
@@ -167,7 +159,7 @@ export class Profile {
     };
 
     static validateGender = (gender: Gender) => {
-        if (!Object.values(Gender).includes(gender)) throw new Error('Unsupported gender'); //maybe add X or "prefer not to say"
+        if (!Object.values(Gender).includes(gender)) throw new Error('Unsupported gender');
     };
 
     static validateInterests = (interests: string[]) => {
@@ -185,16 +177,6 @@ export class Profile {
         if (nullCount == 5) throw new Error('At least one social is required');
     };
 
-    static validateSwipedRightEmails = (emails: string[]) => {
-        if (emails.length > 0) {
-            emails.forEach((e) => {
-                if (!e.includes('@')) {
-                    throw new Error("Email must contain '@'");
-                }
-            });
-        }
-    };
-
     static from({
         id,
         createdAt,
@@ -209,7 +191,6 @@ export class Profile {
         interests,
         socials,
         pictures,
-        swipedRightEmails,
         bio,
     }: ProfilePrisma): Profile {
         return new Profile({
@@ -226,7 +207,6 @@ export class Profile {
             interests,
             socials,
             pictures,
-            swipedRightEmails,
             bio,
         });
     }

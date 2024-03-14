@@ -1,6 +1,19 @@
 import { Gender, Match, Preference } from '@prisma/client';
 
 type Role = 'ADMIN' | 'USER';
+type Direction = 'L' | 'R';
+
+type Swipe = {
+    swiperId: number;
+    swipeeId: number;
+    direction: Direction;
+};
+type SwipeInput = {
+    id: number;
+    swiperId?: number;
+    swipeeId?: number;
+    direction?: Direction;
+};
 
 type ProfileInput = {
     email?: string;
@@ -14,7 +27,6 @@ type ProfileInput = {
     socials?: string[];
     pictures?: string[];
     bio?: string;
-    swipedRightEmails?: string[];
     matches?: Match[];
 };
 
@@ -56,4 +68,19 @@ type AuthenticationResponse = {
     profile: AuthenticatedProfile;
 };
 
-export { Role, ProfileInput, ProfileReply, AuthenticatedToken, AuthenticationResponse };
+type SwipeResponse = {
+    object: Swipe | Match;
+    isMatch: boolean;
+};
+
+export {
+    Role,
+    Direction,
+    Swipe,
+    SwipeInput,
+    ProfileInput,
+    ProfileReply,
+    AuthenticatedToken,
+    AuthenticationResponse,
+    SwipeResponse,
+};

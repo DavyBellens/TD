@@ -33,9 +33,8 @@ profileRouter.get(
     async (req: Request & { auth: AuthenticationResponse }, res: Response, next: NextFunction) => {
         try {
             const preference = String(req.query.preference);
-            const swiped = req.query.swipedEmails as string[];
             const auth = req.auth;
-            const profiles = await profileService.getAllPossibleMatches(preference as Preference, swiped, auth);
+            const profiles = await profileService.getAllPossibleMatches(preference as Preference, auth);
             res.status(200).json({ status: 'success', message: 'possible matches found', profiles });
         } catch (error) {
             next(error);

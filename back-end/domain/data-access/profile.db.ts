@@ -32,7 +32,6 @@ const createProfile = async (
                 interests,
                 pictures,
                 socials: socials.map((s) => (s !== null ? s : '')),
-                swipedRightEmails: [],
             },
         });
         if (profilePrisma) return Profile.from(profilePrisma);
@@ -222,18 +221,6 @@ const updateSocials = async (id: number, newSocials: string[]) => {
         throw new Error('Database error when updating profile socials. See server log for details.');
     }
 };
-const updateSwiped = async (id: number, newSwiped: string[]) => {
-    try {
-        const updatedProfile = await database.profile.update({
-            where: { id },
-            data: { swipedRightEmails: newSwiped },
-        });
-        return updatedProfile ? Profile.from(updatedProfile) : null;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error when updating profile swiped emails. See server log for details.');
-    }
-};
 
 const deleteProfile = async (id: number): Promise<Profile> => {
     try {
@@ -259,19 +246,6 @@ const getAllProfilesByGender = async (gender: Gender) => {
     }
 };
 
-const updateSwipedEmails = async (id: number, emails: string[]) => {
-    try {
-        const profilePrisma = await database.profile.update({
-            where: { id },
-            data: { swipedRightEmails: emails },
-        });
-        return profilePrisma ? Profile.from(profilePrisma) : null;
-    } catch (error) {
-        console.error(error);
-        throw new Error('Database error when updatings swiped emails. See server log for details.');
-    }
-};
-
 export default {
     getAllProfilesByGender,
     createProfile,
@@ -289,7 +263,5 @@ export default {
     updateGender,
     updateInterests,
     updateSocials,
-    updateSwiped,
-    updateSwipedEmails,
     deleteProfile,
 };

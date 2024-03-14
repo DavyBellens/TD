@@ -8,6 +8,13 @@ export type Profile = {
   socials: string[];
   pictures: string[];
 };
+
+export type Swipe = {
+  swiperId: number;
+  swipeeId: number;
+  direction: "L" | "R";
+};
+
 export type BackendProfile = {
   id: string;
   email: string;
