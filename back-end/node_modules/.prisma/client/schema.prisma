@@ -42,8 +42,23 @@ model Profile {
   interests           String[]
   socials             String[]
   pictures            String[]    @default(["default-profilePicture.jpg"])
-  swipedRightEmails   String[]
+  swipes              Swipe[]     @relation("swipes")
+  swipedBy            Swipe[]     @relation("swipedBy")
   matches             Match[]     @relation("matches")
+}
+
+enum Direction {
+  L
+  R
+}
+
+model Swipe {
+  id  Int   @id @default(autoincrement())
+  swiperId Int
+  swipeeId Int
+  direction Direction
+  swiper Profile @relation("swipes", references: [id], fields: [swiperId])
+  swipee Profile @relation("swipedBy", references: [id], fields: [swipeeId])
 }
 
 model Match {
