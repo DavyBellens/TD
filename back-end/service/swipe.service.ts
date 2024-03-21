@@ -7,11 +7,15 @@ const createSwipe = async (swipeInput: SwipeInput, auth: AuthenticatedToken): Pr
     const id = auth.id as unknown as number;
     const { swipeeId, direction } = swipeInput;
     Swipe.validate(id, swipeeId, direction);
-    if (await swipeDb.getSwipeByIds(id, swipeeId)) throw new Error('You already swiped this person');
-    const isMatch = await swipeDb.getSwipeByIds(swipeeId, id);
-    if (isMatch) {
-        await swipeDb.createSwipe(id, swipeeId, direction);
-        return { object: await matchService.match(id, swipeeId, auth), isMatch: true };
+    if (direction === 'R') {
+        if (await swipeDb.getSwipeByIds(id, swipeeId)) throw new Error('You already swiped this person');
+        const isMatch = await swipeDb.getSwipeByIds(swipeeId, id);
+        if (isMatch) {
+            await swipeDb.createSwipe(id, swipeeId, direction);
+            return { object: await matchService.match(id, swipeeId, auth), isMatch: true };
+        } else {
+            return { object: await swipeDb.createSwipe(id, swipeeId, direction), isMatch: false };
+        }
     } else {
         return { object: await swipeDb.createSwipe(id, swipeeId, direction), isMatch: false };
     }
