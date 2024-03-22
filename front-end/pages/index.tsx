@@ -13,7 +13,6 @@ import React, { useEffect, useState } from "react";
 const Home: React.FC = () => {
   const [profile, setProfile] = useState<BackendProfile | undefined>();
   const [possibleMatches, setPossibleMatches] = useState<BackendProfile[]>();
-  const [images, setImages] = useState<any[]>([]);
   const [match, setMatch] = useState<BackendProfile | null>(null);
   const getUser = async () => {
     if (!profile) {
@@ -32,6 +31,15 @@ const Home: React.FC = () => {
     }
   };
 
+  const unlikeProfile = async (matchProfile: BackendProfile) => {
+    if (profile) {
+      await SwipeService.swipe(matchProfile.id as unknown as number, "L");
+      if (possibleMatches) {
+        setPossibleMatches(possibleMatches.filter((p) => p.email != possibleMatches[0].email));
+      }
+    }
+  };
+  
   const likeProfile = async (matchProfile: BackendProfile) => {
     if (profile) {
       const swipe = await SwipeService.swipe(matchProfile.id as unknown as number, "R");
@@ -42,36 +50,11 @@ const Home: React.FC = () => {
     }
   };
 
-  const getPictures = async (profile: BackendProfile) => {
-    if (profile.pictures.length > 0) {
-      try {
-        const pictures = await Promise.all(
-          profile.pictures.map(async (p) => {
-            const i = await FileService.getFile(p);
-            if (i) return URL.createObjectURL(i);
-          })
-        );
-        if (pictures) {
-          setImages(pictures);
-        }
-      } catch (error) {
-        console.log(error);
-        try {
-        } catch (error) {
-          const pictures = profile.pictures.map(
-            async (_p) => await import("/public/images/default-profilePicture.jpg")
-          );
-          setImages(pictures);
-        }
-      }
-    }
-  };
   const getPossibleMatches = async () => {
     if (profile) {
       const matches = await ProfileService.getAllPossibleMatches(profile.preference);
       if (matches) {
         setPossibleMatches(matches.profiles);
-        matches.profiles.forEach(async (p: BackendProfile) => await getPictures(p));
       }
     }
   };
@@ -116,13 +99,11 @@ const Home: React.FC = () => {
                   <ul className="flex w-full items-center mt-10 mb-10 justify-center">
                     {possibleMatches.length > 0 ? (
                       <li className="flex flex-col items-center justify-evenly">
-                        <MatchProfile profile={possibleMatches[0]} images={images} />
+                        <MatchProfile profile={possibleMatches[0]} />
                         <div className="flex ">
                           <button
                             className="m-5 p-2 bg-red-600 text-white text-xl w-auto"
-                            onClick={() =>
-                              setPossibleMatches(possibleMatches.filter((p) => p.email != possibleMatches[0].email))
-                            }
+                            onClick={() => unlikeProfile(possibleMatches[0])}
                           >
                             Pass
                           </button>
