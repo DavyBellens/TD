@@ -11,7 +11,7 @@ const ProfileId: React.FC<Props> = ({ profile, images }: Props) => {
   const [pictureSize, setSize] = useState<boolean>(false);
   const [index, setIndex] = useState<boolean>(false);
   const spanStyle = "text-black font-bold m-1";
-  const divStyle = "bg-white text-black rounded-lg m-1";
+  const divStyle = "bg-white text-black rounded-lg m-1 p-1";
   return (
     profile && (
       <div className="m-2 bg-white bg-opacity-75 ">
@@ -60,7 +60,7 @@ const ProfileId: React.FC<Props> = ({ profile, images }: Props) => {
         <div className="flex flex-col">
           <span className={spanStyle}>Bio</span>
           <div className={divStyle}>
-            <span className="m-1">{profile.bio}</span>
+            <span>{profile.bio}</span>
           </div>
         </div>
         <div className="flex flex-col">
