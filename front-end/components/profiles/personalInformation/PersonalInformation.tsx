@@ -98,6 +98,9 @@ const PersonalInformationForm: React.FC<Props> = ({ callBack, nextStage, setStat
     if (!interests || interests.length === 0) {
       setInterestsError("You gotta be interested in something right?");
       isValid = false;
+    } else if (interests.length > 10) {
+      setInterestsError("Max. 10 interests allowed");
+      isValid = false;
     }
     return isValid;
   };
