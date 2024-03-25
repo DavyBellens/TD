@@ -56,9 +56,23 @@ const getSwipeByIds = async (swiperId: number, swipeeId: number): Promise<Swipe>
     }
 };
 
+const deleteSwipe = async (id: number): Promise<Boolean> => {
+    try {
+        await database.swipe.delete({
+            where: {
+                id,
+            },
+        });
+        return true;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export default {
     createSwipe,
     getAllSwipes,
     getSwipedBy,
     getSwipeByIds,
+    deleteSwipe,
 };

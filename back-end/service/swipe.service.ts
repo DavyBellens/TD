@@ -29,4 +29,12 @@ const getSwipeByIds = async (swiperId: number, swipeeId: number): Promise<Swipe>
     return await swipeDb.getSwipeByIds(swiperId, swipeeId);
 };
 
-export default { createSwipe, getAllSwipes, getSwipeByIds };
+const getSwipedBy = async (swipeeId: number): Promise<Swipe[]> => {
+    return await swipeDb.getSwipedBy(swipeeId);
+};
+
+const deleteSwipe = async (swipeId: number): Promise<Boolean> => {
+    return await swipeDb.deleteSwipe(swipeId);
+};
+
+export default { createSwipe, getAllSwipes, getSwipeByIds, getSwipedBy, deleteSwipe };

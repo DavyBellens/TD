@@ -186,6 +186,14 @@ const deleteProfile = async (inputProfileId: string | number, auth: any): Promis
     matches.forEach(async (m) => {
         await matchService.deleteMatch(m.id, auth);
     });
+    const swipes = await swipeService.getAllSwipes(profileId);
+    swipes.forEach(async (s) => {
+        await swipeService.deleteSwipe(s.id);
+    });
+    const swipedBy = await swipeService.getSwipedBy(profileId);
+    swipedBy.forEach(async (sb) => {
+        await swipeService.deleteSwipe(sb.id);
+    });
     return await profileDb.deleteProfile(profileId);
 };
 
@@ -214,19 +222,21 @@ const getAllPossibleMatches = async (preference: Preference, auth: any) => {
     if (swipes) swiped = swipes.map((s) => s.swipeeId);
     if (preference === 'FEMALE') {
         return (await profileDb.getAllProfilesByGender('WOMAN')).filter(
-            (p) => p.email != email && !swiped.includes(p.id)
+            (p) => p.email != email && !swiped.includes(p.id) && p.pictures.length > 0
         );
     } else if (preference === 'MALE') {
         return (await profileDb.getAllProfilesByGender('MAN')).filter(
-            (p) => p.email != email && !swiped.includes(p.id)
+            (p) => p.email != email && !swiped.includes(p.id) && p.pictures.length > 0
         );
     } else if (preference === 'BOTH') {
         return [
             ...(await profileDb.getAllProfilesByGender('MAN')),
             ...(await profileDb.getAllProfilesByGender('WOMAN')),
-        ].filter((p) => p.email != email && !swiped.includes(p.id));
+        ].filter((p) => p.email != email && !swiped.includes(p.id) && p.pictures.length > 0);
     } else if (preference === 'OTHER') {
-        return (await profileDb.getAllProfiles()).filter((p) => p.email != email && !swiped.includes(p.id));
+        return (await profileDb.getAllProfiles()).filter(
+            (p) => p.email != email && !swiped.includes(p.id) && p.pictures.length > 0
+        );
     }
     return [];
 };
