@@ -22,7 +22,7 @@ const ProfileAddPictureComponent: React.FC<Props> = ({ profile, id, images }: Pr
         profileObject.profile.gender,
         profileObject.profile.preference,
         pictures,
-        profileObject.profile.socials,
+        profileObject.profile.socials
       );
     }
     router.reload();
@@ -61,8 +61,9 @@ const ProfileAddPictureComponent: React.FC<Props> = ({ profile, id, images }: Pr
                     <Image
                       src={i}
                       alt={"Profile picture with name " + profile.pictures[index]}
-                      width={100}
-                      height={125}
+                      width="0"
+                      height="0"
+                      style={{ width: "150px", height: "auto" }}
                       loading="lazy"
                       className="rounded-lg"
                     />
