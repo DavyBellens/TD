@@ -13,7 +13,6 @@ const InputField: React.FC<Props> = ({ id, field, type, value, callBack, inputSt
   return (
     <>
       <label className={labelStyle} htmlFor={id}>
-        {/*"text-md mt-3"*/}
         <strong>{field}:</strong>
       </label>
       <input
