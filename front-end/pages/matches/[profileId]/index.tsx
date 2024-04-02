@@ -1,9 +1,10 @@
 import Back from "@/components/Back";
 import Footer from "@/components/Footer";
+import AuthError from "@/components/authorization/AuthError";
 import ProfileId from "@/components/profiles/ProfileId";
 import FileService from "@/services/FileService";
 import ProfileService from "@/services/ProfileService";
-import { Profile } from "@/types";
+import { BackendProfile, Profile } from "@/types";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -14,7 +15,24 @@ const ProfileIdPage: React.FC = () => {
   const router = useRouter();
   const id = router.query.profileId;
   const [images, setImages] = useState<any>();
+  const [userProfile, setUserProfile] = useState<BackendProfile | undefined>();
 
+  const getUserProfile = async () => {
+    if (!profile) {
+      const user = sessionStorage.getItem("loggedInUser");
+
+      if (user) {
+        const p = JSON.parse(user);
+        if (p) {
+          const response = await ProfileService.getProfileById(p.id);
+          const profile = response.profile;
+          if (profile) {
+            setUserProfile(profile);
+          }
+        }
+      }
+    }
+  };
   const getImage = async (profile: Profile) => {
     if (profile && profile.pictures && profile.pictures.length > 0) {
       let images: any[] = [];
@@ -45,6 +63,7 @@ const ProfileIdPage: React.FC = () => {
 
   useEffect(() => {
     mutate("profile", getProfile());
+    getUserProfile();
   }, [id]);
 
   useInterval(() => {
@@ -57,12 +76,17 @@ const ProfileIdPage: React.FC = () => {
       </Head>
       {isLoading && <div>Loading...</div>}
       {error && <div>{error}</div>}
-      {profile && images && (
-        <div className="app">
-          <Back message="Go back" style="bg-white bg-opacity-50 m-5 p-2 rounded-xl font-bold text-center w-max" />
-          <ProfileId profile={profile} images={images} />
-          <Footer />
-        </div>
+      {userProfile ? (
+        profile &&
+        images && (
+          <div className="app">
+            <Back message="Go back" style="bg-white bg-opacity-50 m-5 p-2 rounded-xl font-bold text-center w-max" />
+            <ProfileId profile={profile} images={images} />
+            <Footer />
+          </div>
+        )
+      ) : (
+        <AuthError />
       )}
     </>
   );
