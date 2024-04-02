@@ -27,7 +27,7 @@ const Welcome: React.FC = () => {
           <p className="mt-10 mb-10 text-2xl font-semibold">Made possible by</p>
           <div className="grid grid-cols-2 grid-rows-2 justify-center">
             <Image src={b} alt="Logo Biomedica" width={150} height={100} className="m-auto mb-10" />
-            <Image src={p} alt="Logo Primus Scaldiae" width={200} height={200} className="mt-5" />
+            <Image src={p} alt="Logo Primus Scaldiae" width={200} height={200} className="m-auto mt-5" />
             <Image
               src={wd}
               alt="Logo We're Different Agency"
