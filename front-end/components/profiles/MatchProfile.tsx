@@ -61,7 +61,7 @@ const MatchProfile: React.FC<Props> = ({ profile }: Props) => {
     <div className="flex items-center flex-col w-10/12 justify-center">
       {selectedImage && (
         <div>
-          <div className="flex justify-center relative h-full mb-20 w-full">
+          <div className="flex justify-center relative h-full mb-10 w-full">
             <div className="absolute left-0 top-0 w-1/2 h-full" onClick={() => changeImage(-1)}></div>
             <div className="image-container bg-black m-auto flex items-center w-full align-middle">
               <Image
