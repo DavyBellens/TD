@@ -39,7 +39,7 @@ const Home: React.FC = () => {
       }
     }
   };
-  
+
   const likeProfile = async (matchProfile: BackendProfile) => {
     if (profile) {
       const swipe = await SwipeService.swipe(matchProfile.id as unknown as number, "R");
@@ -97,7 +97,8 @@ const Home: React.FC = () => {
                   </div>
                 ) : (
                   <ul className="flex w-full items-center mt-10 mb-10 justify-center">
-                    {possibleMatches.length > 0 ? (
+                    <p>Coming soon...</p>
+                    {/* {possibleMatches.length > 0 ? (
                       <li className="flex flex-col items-center justify-evenly">
                         <MatchProfile profile={possibleMatches[0]} />
                         <div className="flex ">
@@ -117,7 +118,7 @@ const Home: React.FC = () => {
                       </li>
                     ) : (
                       <p className="m-5 p-5 text-center">Well it looks like you swiped 'em all...</p>
-                    )}
+                    )} */}
                   </ul>
                 )}
               </>
