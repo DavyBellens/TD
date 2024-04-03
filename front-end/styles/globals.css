@@ -82,6 +82,26 @@ body {
   /* background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb)); */
 }
 
+.logo {
+  height: auto;
+}
+
+.tinderTD {
+  width: 250px;
+}
+
+.biomedica {
+  width: 150px;
+}
+
+.wdagency {
+  width: 175px;
+}
+
+.primus {
+  width: 200px;
+}
+
 .app {
   display: flex;
   flex-direction: column;
