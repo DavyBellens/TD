@@ -16,8 +16,10 @@ const Welcome: React.FC = () => {
       </Head>
       <main>
         <div className="flex flex-col justify-center align-middle text-center">
-          <p className="mt-20 text-4xl font-bold">Welcome to</p>
-          <Image src={td} alt="Logo Tinder TD" width={250} height={50} className="m-auto mt-10 mb-10" />
+          <p className="mt-20 text-4xl font-bold w-auto h-auto">Welcome to</p>
+          <div className="m-auto mt-10 mb-10 tinderTD logo">
+            <Image src={td} alt="Logo Tinder TD" width={0} height={0} priority />
+          </div>
           <a
             href="/login"
             className="bg-white bg-opacity-50 m-auto p-2 rounded-xl font-bold text-3xl text-center w-max"
@@ -26,15 +28,15 @@ const Welcome: React.FC = () => {
           </a>
           <p className="mt-10 mb-10 text-2xl font-semibold">Made possible by</p>
           <div className="grid grid-cols-2 grid-rows-2 justify-center">
-            <Image src={b} alt="Logo Biomedica" width={150} height={100} className="m-auto mb-10" />
-            <Image src={p} alt="Logo Primus Scaldiae" width={200} height={200} className="m-auto mt-5" />
-            <Image
-              src={wd}
-              alt="Logo We're Different Agency"
-              width={175}
-              height={100}
-              className="m-auto mt-0 col-span-2"
-            />
+            <div className="m-auto mb-10 biomedica logo">
+              <Image src={b} alt="Logo Biomedica" width={0} height={0} />
+            </div>
+            <div className="m-auto mt-5 primus logo">
+              <Image src={p} alt="Logo Primus Scaldiae" width={0} height={0} />
+            </div>
+            <div className="m-auto mt-0 col-span-2 wdagency logo">
+              <Image src={wd} alt="Logo We're Different Agency" width={0} height={0} />
+            </div>
           </div>
         </div>
       </main>
