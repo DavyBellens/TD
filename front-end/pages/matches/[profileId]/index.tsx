@@ -18,7 +18,7 @@ const ProfileIdPage: React.FC = () => {
   const [userProfile, setUserProfile] = useState<BackendProfile | undefined>();
 
   const getUserProfile = async () => {
-    if (!profile) {
+    if (!userProfile) {
       const user = sessionStorage.getItem("loggedInUser");
 
       if (user) {
