@@ -1,5 +1,4 @@
 import FileService from "@/services/FileService";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -38,12 +37,19 @@ const ProfilesOverviewTable: React.FC<Props> = ({ profiles }: Props) => {
               onClick={() => router.push("/matches/" + p.id)}
               className="text-md grid grid-cols-4 bg-white bg-opacity-90 pt-1 pb-1 border border-b-1"
             >
-              <Image
+              {/* <Image
                 alt={"profile picture of profile with id " + p.id}
                 className="rounded-full row-span-2 row-start-1 m-auto"
                 src={images[index]}
                 width={50}
                 height={50}
+              /> */}
+              <img
+                src={images[index]}
+                width={50}
+                height={50}
+                alt={"profile picture of profile with id " + p.id}
+                className="rounded-full row-span-2 row-start-1 m-auto"
               />
               <div className="grid text-black text-opacity-70 font-bold col-span-3 m-1 grid-rows-2">
                 <span className={p.name.length > 15 ? "text-sm" : "text-lg"}>{p.name}</span>

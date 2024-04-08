@@ -2,7 +2,6 @@ import Footer from "@/components/Footer";
 import FileService from "@/services/FileService";
 import ProfileService from "@/services/ProfileService";
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -75,7 +74,9 @@ const removePicture: React.FC = () => {
         <>
           <h1 className="text-2xl font-bold text-center p-5 mt-5">Are you sure you want to delete this picture?</h1>
           <div className="flex justify-center">
-            <Image src={image} alt={"A profile picture with the name " + filename} width={100} height={0} />
+            {/* <Image src={image} alt={"A profile picture with the name " + filename} width={100} height={0} /> */}
+            {/* as img */}
+            <img src={image} alt={"A profile picture with the name " + filename} width={100} height={100} />
           </div>
           {imageError ? (
             <>

@@ -1,9 +1,6 @@
 import AuthError from "@/components/authorization/AuthError";
 import Footer from "@/components/Footer";
 import Header from "@/components/header/Header";
-import MatchProfile from "@/components/profiles/MatchProfile";
-import FileService from "@/services/FileService";
-import MatchService from "@/services/MatchService";
 import ProfileService from "@/services/ProfileService";
 import SwipeService from "@/services/SwipeService";
 import { BackendProfile } from "@/types";

@@ -1,6 +1,5 @@
 import Social from "@/components/profiles/socials/Social";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type Props = {
   profile: any;
@@ -17,12 +16,20 @@ const ProfileId: React.FC<Props> = ({ profile, images }: Props) => {
       <div className="m-2 bg-white bg-opacity-75 ">
         <div className="text-md grid grid-cols-4 pt-1 pb-1 border border-b-2 ">
           {images && (
-            <Image
-              alt={`profile picture ${index ? "2" : "1"} of profile with name ` + profile.name}
-              className="rounded-full row-span-2 row-start-1 m-auto"
+            // <Image
+            // alt={`profile picture ${index ? "2" : "1"} of profile with name ` + profile.name}
+            // className="rounded-full row-span-2 row-start-1 m-auto"
+            // src={images[index ? 1 : 0]}
+            // width={50}
+            // height={100}
+            // onClick={() => setSize(!pictureSize)}
+            // />
+            <img
               src={images[index ? 1 : 0]}
               width={50}
-              height={100}
+              height={50}
+              alt={`profile picture ${index ? "2" : "1"} of profile with name ` + profile.name}
+              className="rounded-full row-span-2 row-start-1 m-auto "
               onClick={() => setSize(!pictureSize)}
             />
           )}
@@ -35,11 +42,20 @@ const ProfileId: React.FC<Props> = ({ profile, images }: Props) => {
                 >
                   &times;
                 </span>
-                <Image
+                {/* <Image
                   alt={`profile picture ${index ? "2" : "1"} of profile with name ` + profile.name}
                   src={images[index ? 1 : 0]}
-                  width={400}
-                  height={800}
+                  width={250}
+                  objectFit="scale-down"
+                  height={600}
+                  onClick={() => setIndex(!index)}
+                  />
+          */}
+                <img
+                  src={images[index ? 1 : 0]}
+                  width={250}
+                  height={400}
+                  alt={`profile picture ${index ? "2" : "1"} of profile with name ` + profile.name}
                   onClick={() => setIndex(!index)}
                 />
               </div>

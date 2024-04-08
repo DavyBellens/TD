@@ -1,8 +1,6 @@
 import ImageUpload from "@/components/profiles/pictures/ImageUpload";
 import ProfileService from "@/services/ProfileService";
 import { Profile } from "@/types";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 type Props = {
@@ -58,13 +56,21 @@ const ProfileAddPictureComponent: React.FC<Props> = ({ profile, id, images }: Pr
                       profile.pictures && router.push(router.asPath + "/../" + profile.pictures[index] + "/remove")
                     }
                   >
-                    <Image
+                    {/* <Image
                       src={i}
                       alt={"Profile picture with name " + profile.pictures[index]}
                       width="0"
                       height="0"
                       style={{ width: "150px", height: "auto" }}
                       loading="lazy"
+                      className="rounded-lg"
+                      />
+                      */}
+                    <img
+                      src={i}
+                      alt={"Profile picture with name " + profile.pictures[index]}
+                      width={150}
+                      height={150}
                       className="rounded-lg"
                     />
                   </li>

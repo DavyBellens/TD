@@ -1,6 +1,5 @@
 import FileService from "@/services/FileService";
-import { BackendProfile, Profile } from "@/types";
-import Image from "next/image";
+import { BackendProfile } from "@/types";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -63,16 +62,21 @@ const MatchProfile: React.FC<Props> = ({ profile }: Props) => {
         <div>
           <div className="flex justify-center relative h-full mb-10 w-full">
             <div className="absolute left-0 top-0 w-1/2 h-full" onClick={() => changeImage(-1)}></div>
-            <div className="image-container bg-black m-auto flex items-center w-full align-middle">
-              <Image
+            <div className="image-container bg-black m-auto flex items-center w-full relative align-middle">
+              <img
+                src={selectedImage}
+                alt={"picture of profile " + profile.name}
+                className="bg-black image-container"
+              />
+              {/* <Image
                 src={selectedImage}
                 alt={"picture of profile " + profile.name}
                 className="bg-black"
                 layout="fill"
-                objectFit="contain"
+                // objectFit="contain"
                 width={0}
                 height={0}
-              />
+              /> */}
             </div>
             <div className="absolute right-0 top-0 w-1/2 h-full" onClick={() => changeImage(1)}></div>
           </div>
