@@ -1,6 +1,7 @@
 import AuthError from "@/components/authorization/AuthError";
 import Footer from "@/components/Footer";
 import Header from "@/components/header/Header";
+import MatchProfile from "@/components/profiles/MatchProfile";
 import ProfileService from "@/services/ProfileService";
 import SwipeService from "@/services/SwipeService";
 import { BackendProfile } from "@/types";
@@ -94,8 +95,7 @@ const Home: React.FC = () => {
                   </div>
                 ) : (
                   <ul className="flex w-full items-center mt-10 mb-10 justify-center">
-                    <p>Coming soon...</p>
-                    {/* {possibleMatches.length > 0 ? (
+                    {possibleMatches.length > 0 ? (
                       <li className="flex flex-col items-center justify-evenly">
                         <MatchProfile profile={possibleMatches[0]} />
                         <div className="flex ">
@@ -115,7 +115,7 @@ const Home: React.FC = () => {
                       </li>
                     ) : (
                       <p className="m-5 p-5 text-center">Well it looks like you swiped 'em all...</p>
-                    )} */}
+                    )}
                   </ul>
                 )}
               </>
