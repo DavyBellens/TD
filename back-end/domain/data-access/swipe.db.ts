@@ -47,7 +47,7 @@ const getSwipeByIds = async (swiperId: number, swipeeId: number): Promise<Swipe>
     try {
         const swipe = await database.swipe.findFirst({
             where: {
-                AND: [{ swiperId }, { swipeeId }],
+                AND: [{ swiperId }, { swipeeId }, { direction: 'R' }],
             },
         });
         return swipe ? Swipe.from(swipe) : null;
